@@ -18,35 +18,74 @@
 
   <script src="./js/package/dist/echarts.min.js"></script>
   <script src="./js/package/map/js/china.js"></script>
-  <script src="./js/data.js"></script>
+  <script src="./js/provinces.js"></script>
+  <script src="./js/jquery.min.js"></script>
   <script>
     window.onload = () => {
       let dom = document.getElementById('map');
       let charts = null,
-          option = null;
+          option = null,
+          mapType = '',
+          mapName = 'china',
+          back = [];
       if (!!dom) {
         charts = echarts.init(dom);
-        option = setOption('china');
+        drawCharts('china');
+        
+        bindClickEvt();
+      }
+      
+      // 绘制地图
+      function drawCharts(name) {
+        option = setOption(name);
         option.series[0].data = [{
           name: '新疆',
           value: 2021
         }];
         charts.setOption(option);
-        
-        bindClickEvt();
       }
       
+      // 地图绑定事件
       function bindClickEvt() {
         charts.on('click', params => {
-          console.log(params);
-          registerMapEvt(params.name);
+          let ename = provinces[params.name];
+          if (!!ename) {
+            mapType = '省级地图';
+            mapName = ename;
+            back.push({
+              type: mapType,
+              name: mapName
+            })
+            getJson(mapType, mapName);
+          };
+
+          let cityName = cityMap[params.name];
+          if (!!cityName) {
+            mapType = '地市级地图';
+            mapName = cityName;
+            back.push({
+              type: mapType,
+              name: mapName
+            })
+            getJson(mapType, mapName);
+          };
         })
       }
-
+      function getJson(type, name) {
+        if (type === '省级地图') {
+          ajaxJson(`./js/package/map/json/province/${name}.json`, name);
+        } else if (type === '地市级地图') {
+          ajaxJson(`./js/city/${name}.json`, name);
+        } else {
+          charts.clear();
+          drawCharts(name)
+        }
+      }
+      // 地图配置项
       function setOption(city) {
         return option = {
           title: {
-            text: '中国地图',
+            text: mapType || '中国地图',
           },
           tooltip: {
             trigger: 'item',
@@ -55,6 +94,28 @@
                 <i class="map-echarts-label">${params.name}</i><br/>
                 <i class="map-echats-value">数量：${params.value || 0}</i>
                 </div>`
+            }
+          },
+          toolbox: { // 工具箱
+            show: !!mapType ? true : false,
+            orient: 'vertical',
+            left: '90%',
+            top: 'top',
+            itemSize: 32,  // icon大小
+            feature: {
+              myTool: {
+                show: true,
+                title: '返回上一级',
+                icon: 'image://./images/back.png',
+                onclick: function(params) {
+                  let obj = back.pop() || {type: '', name: 'china'};
+                  let btype = obj.type,
+                      bname = obj.name;
+                  mapType = btype;
+                  mapName = bname;
+                  getJson(btype, bname);
+                }
+              }
             }
           },
           series: [{
@@ -95,12 +156,29 @@
           }]
         }
       }
-
-      function registerMapEvt(name) {
-        
-      }
-
       
+      // 请求本地文件，注意浏览器同源策略的限制
+      function ajaxJson(url, name) {
+        var ajax = new XMLHttpRequest();
+        let index = window.location.pathname.indexOf('/echarts/');
+        let ROOT_PATH = `${window.location.origin}${window.location.pathname.slice(0, index)}`;
+        $.ajax({
+            // 受谷歌同源策略的影响，请求本地json会产生跨域，可配置https://blog.csdn.net/weixin_44924173/article/details/89482892。
+            url: url,
+            dataType: 'json',
+            data: { x: new Date() },
+            success: function(mapData) {
+              registerMapEvt(mapData, name);
+            }
+        });
+      }
+      
+      // 注册自定义地图
+      function registerMapEvt(mapData, name) {
+        echarts.registerMap(name, mapData); 
+        charts.clear();
+        drawCharts(name)
+      }
     }
   </script>
 </body>
