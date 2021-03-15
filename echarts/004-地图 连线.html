@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>echarts-连线地图</title>
+  <link rel="stylesheet" type="text/css" href="./css/index.css" />
+</head>
+
+<body>
+  <div class="title">echarts4.8.0</div>
+  <div class="charts">
+    <div id="map" class="wfull"></div>
+  </div>
+
+
+  <script src="./js/package/dist/echarts.min.js"></script>
+  <script src="./js/data.js"></script>
+  <script>
+    window.onload = () => {
+      let option = {
+        title: {
+          text: '新疆省',
+          subtext: '新疆地市地图',
+          sublink: ''
+        },
+        geo: { // 地图
+          zoom: 1,
+          map: 'XJ',
+          roam: true, // 控制地图鼠标缩放和拖拽
+          label: { // 地图区域文本展示
+            show: true,
+            color: 'rgba(138,146,246,0.58)',
+            fontSize: 14
+          },
+          scaleLimit: {
+            min: 1,
+            max: 8
+          },
+          emphasis: {
+            label: {
+              color: '#fff',
+              show: true // 设置地图区域高亮时的文本淹死
+            }
+          },
+          itemStyle: { // 地图区域样式
+            borderColor: 'rgba(0,0,0,0.18)',
+            borderWidth: 1,
+            areaColor: '#333354',
+            shadowColor: 'rgba(0,0,0,0.13)',
+            shadowOffsetX: 0,
+            shadowOffsetY: 25,
+            label: {
+              fontWeight: 'bold',
+              opacity: 0.54,
+              color: 'rgba(138,146,246,0.58)',
+              letterSpacing: '12.3px',
+              textAlign: 'right'
+            }
+          },
+          emphasis: { // 地图高亮区域样式
+            itemStyle: {
+              areaColor: '#353555',
+              borderColor: new echarts.graphic.LinearGradient(0, 0, 0, 1,
+                [{
+                    offset: 0,
+                    color: '#f78879'
+                  },
+                  {
+                    offset: 0.5,
+                    color: '#6af651'
+                  },
+                  {
+                    offset: 1,
+                    color: '#51b3f6'
+                  }
+                ]),
+              borderWidth: 2,
+            },
+            label: {
+              fontWeight: 'bold',
+              opacity: 0.54,
+              color: 'rgba(138,146,246,0.58)',
+              letterSpacing: '12.3px',
+              textAlign: 'right'
+            }
+          }
+        },
+        series: [{
+          // 地图上的线
+          type: 'lines',
+          coordinateSystem: 'geo', // 这句的意思是连线是基于地理坐标的,geo组件将在下面给出
+          polyline: false, // 这表示连线是否为多端点的连线 -- 若连接多个端点，data里的coords设置多个经纬度即可
+          symbol: ['circle', 'image://images/domain.png'], // 线两端的标记类型
+          lineStyle: {   // 连接线样式
+            color: '#00ffff',
+            opacity: 0.9,
+            width: 2,
+            type: 'dotted',
+            curveness: 0.3, // 连接线的弧度（仅在polyline为false时有效）
+          },
+          progressiveThreshold: 500,
+          progressive: 200,
+          data: [], // 这里就是连线的数据了 上面组装的数据就在这里使用
+        }, {
+          // 线上移动的点
+          type: 'lines',
+          coordinateSystem: 'geo', // 这句的意思是连线是基于地理坐标的,geo组件将在下面给出
+          polyline: false, // 这表示连线是否为多端点的连线 -- 若连接多个端点，data里的coords设置多个经纬度即可
+          symbol: ['circle', 'image://images/domain.png'], // 线两端的标记类型
+          lineStyle: {   // 连接线样式
+            color: '#00ffff',
+            opacity: 0.9,
+            width: 2,
+            type: 'dotted',
+            curveness: 0.3, // 连接线的弧度（仅在polyline为false时有效）
+          },
+          effect: {   // 线特效的配置
+            show: true,
+            period: 6,  // 特效动画的时间，单位为 s。
+            symbol: 'circle',  // 特效图形的标记。
+            symbolSize: 6,
+            trailLength: 0.6  // 特效尾迹的长度。取从 0 到 1 的值，数值越大尾迹越长。
+          },
+          progressiveThreshold: 500,
+          progressive: 200,
+          data: [], // 这里就是连线的数据了 上面组装的数据就在这里使用
+        }]
+      }
+
+      let dom = document.getElementById('map');
+      if (!!dom) {
+        let charts = echarts.init(dom);
+
+        /* registerMap注册地图-自定义地图map
+        数据格式要求很严格，需要很多参数
+        各地市参数http://datav.aliyun.com/tools/atlas/#&lat=30.37018632615852&lng=106.68898666525287&zoom=3.5 
+        */
+        echarts.registerMap('XJ', MAP_XJ);
+
+        option.series[0].data = [{coords: [[89.184078, 42.947613], [79.92533, 37.110687]]}];
+        option.series[1].data = [{coords: [[89.184078, 42.947613], [79.92533, 37.110687]]}];
+        
+        charts.setOption(option);
+      }
+    }
+  </script>
+</body>
+
+</html>

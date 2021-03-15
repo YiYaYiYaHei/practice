@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>echarts-地图下钻</title>
+  <link rel="stylesheet" type="text/css" href="./css/index.css" />
+</head>
+
+<body>
+  <div class="title">echarts4.8.0</div>
+  <div class="charts">
+    <div id="map" class="wfull"></div>
+  </div>
+
+
+  <script src="./js/package/dist/echarts.min.js"></script>
+  <script src="./js/package/map/js/china.js"></script>
+  <script src="./js/data.js"></script>
+  <script>
+    window.onload = () => {
+      let dom = document.getElementById('map');
+      let charts = null,
+          option = null;
+      if (!!dom) {
+        charts = echarts.init(dom);
+        option = setOption('china');
+        option.series[0].data = [{
+          name: '新疆',
+          value: 2021
+        }];
+        charts.setOption(option);
+        
+        bindClickEvt();
+      }
+      
+      function bindClickEvt() {
+        charts.on('click', params => {
+          console.log(params);
+          registerMapEvt(params.name);
+        })
+      }
+
+      function setOption(city) {
+        return option = {
+          title: {
+            text: '中国地图',
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: (params) => {
+              return `<div class="charts-tooltip">
+                <i class="map-echarts-label">${params.name}</i><br/>
+                <i class="map-echats-value">数量：${params.value || 0}</i>
+                </div>`
+            }
+          },
+          series: [{
+            name: '中国地图',
+            type: 'map',
+            map: city,  // city为china或world时才生效
+            mapType: city, // 自定义扩展图表类型--city不为china或world时才生效
+            roam: true, // 控制地图鼠标缩放和拖拽
+            scaleLimit: { // 控制缩放比列
+              min: 1,
+              max: 10
+            },
+            label: {
+              show: true, // 地图上显示的字
+              color: '#fff',
+              fontSize: 10
+            },
+            itemStyle: { // 设置地图样式
+              areaColor: '#09295b', // 地图区域的颜色
+              borderColor: '#00ffff', //边界线颜色
+              borderWidth: 2, //边际线大小
+            },
+            emphasis: { // 鼠标滑过样式
+              itemStyle: { //鼠标滑过区域样式
+                areaColor: '#3066ba',
+              },
+              label: { // 鼠标滑过文本样式
+                textStyle: {
+                  color: '#fff'
+                }
+              }
+            },
+            left: '10%',
+            right: '10%',
+            top: '10%',
+            bottom: '20%',
+            data: []
+          }]
+        }
+      }
+
+      function registerMapEvt(name) {
+        
+      }
+
+      
+    }
+  </script>
+</body>
+
+</html>

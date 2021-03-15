@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>echarts-排行地图</title>
+  <link rel="stylesheet" type="text/css" href="./css/index.css" />
+</head>
+
+<body>
+  <div class="title">echarts4.8.0</div>
+  <div class="charts">
+    <div id="map" class="wfull"></div>
+  </div>
+
+
+  <script src="./js/package/dist/echarts.min.js"></script>
+  <script src="./js/package/map/js/china.js"></script>
+  <script src="./js/package/map/js/world.js"></script>
+  <script src="./js/data.js"></script>
+  <script>
+    window.onload = () => {
+      let option = {
+        title: {
+          text: '中国地图',
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: (params) => {
+            return `<div class="charts-tooltip">
+                <i class="map-echarts-label">${params.name}</i><br/>
+                <i class="map-echats-value">数量：${params.value || 0}</i>
+                </div>`
+          }
+        },
+        dataRange: {  // 地图颜色控制
+          show: true,   // 控制是否显示
+          x: 'left',
+          y: 'bottom',
+          splitList: [
+              {start: 1500},
+              {start: 1000, end: 1500},
+              {start: 310, end: 1000},
+              {start: 200, end: 300},
+              {start: 10, end: 200, label: '10 到 200（火灾数量）'},
+              {start: 5, end: 5, label: '5（火灾数量）', color: 'black'},
+              {end: 10}
+          ],
+          color: ['#eee', '#949fb1', '#f3ce85']
+        },
+        series: [{
+          name: '中国地图',
+          type: 'map',
+          map: 'china',
+          roam: true, // 控制地图鼠标缩放和拖拽
+          scaleLimit: { // 控制缩放比列
+            min: 1,
+            max: 10
+          },
+          label: {
+            show: true, // 地图上显示的字
+            color: '#fff',
+            fontSize: 10
+          },
+          itemStyle: { // 设置地图样式
+            areaColor: '#09295b', // 地图区域的颜色
+            borderColor: '#00ffff', //边界线颜色
+            borderWidth: 2, //边际线大小
+          },
+          emphasis: { // 鼠标滑过样式
+            itemStyle: { //鼠标滑过区域样式
+              areaColor: '#3066ba',
+            },
+            label: { // 鼠标滑过文本样式
+              textStyle: {
+                color: '#fff'
+              }
+            }
+          },
+          left: '10%',
+          right: '10%',
+          top: '10%',
+          bottom: '20%',
+          data: [],
+          nameMap: worldMap // 自定义地区的名称映射
+        }]
+      }
+
+      let dom = document.getElementById('map');
+      if (!!dom) {
+        let charts = echarts.init(dom);
+        option.series[0].data = [
+          {name: '新疆', value: 2021},
+          {name: '黑龙江', value: 1600},
+          {name: '青海', value: 1000},
+          {name: '云南', value: 5},
+        ]
+        charts.setOption(option);
+      }
+    }
+  </script>
+</body>
+
+</html>

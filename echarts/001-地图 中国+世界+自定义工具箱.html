@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>echarts-中国、世界地图（自定义工具箱）</title>
+  <link rel="stylesheet" type="text/css" href="./css/index.css" />
+</head>
+
+<body>
+  <div class="title">echarts4.8.0</div>
+  <div class="charts">
+    <div id="chinaMap"></div>
+    <div id="worldMap"></div>
+  </div>
+
+
+  <script src="./js/package/dist/echarts.min.js"></script>
+  <script src="./js/package/map/js/china.js"></script>
+  <script src="./js/package/map/js/world.js"></script>
+  <script src="./js/data.js"></script>
+  <script>
+    window.onload = () => {
+      drawMap('china', setChartsOption('china'));
+      drawMap('world', setChartsOption('world'));
+      
+      function setChartsOption(type) {
+        let text = '',
+          subText = '副标题',
+          subLink = '副标题链接';
+        switch (type) {
+          case 'china':
+            text = '中国地图';
+            break;
+          case 'world':
+            text = '世界地图';
+            break;
+        }
+        return {
+          title: {
+            text: text,
+            subtext: subText,
+            sublink: subLink
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: (params) => {
+              return `<div class="charts-tooltip">
+                <i class="map-echarts-label">${params.name}</i><br/>
+                <i class="map-echats-value">数量：${params.value || 0}</i>
+                </div>`
+            }
+          },
+          toolbox: { // 工具箱
+            show: true,
+            orient: 'vertical',
+            left: 'right',
+            top: 'center',
+            feature: {
+              myTool: {
+                show: true,
+                title: '自定义工具',
+                icon: 'path://M432.45,595.444c0,2.177-4.661,6.82-11.305,6.82c-6.475,0-11.306-4.567-11.306-6.82s4.852-6.812,11.306-6.812C427.841,588.632,432.452,593.191,432.45,595.444L432.45,595.444z M421.155,589.876c-3.009,0-5.448,2.495-5.448,5.572s2.439,5.572,5.448,5.572c3.01,0,5.449-2.495,5.449-5.572C426.604,592.371,424.165,589.876,421.155,589.876L421.155,589.876z M421.146,591.891c-1.916,0-3.47,1.589-3.47,3.549c0,1.959,1.554,3.548,3.47,3.548s3.469-1.589,3.469-3.548C424.614,593.479,423.062,591.891,421.146,591.891L421.146,591.891zM421.146,591.891',
+                onclick: function (){
+                    alert('自定义工具，以"my"开头');
+                }
+              },
+              dataView: { // 数据视图 - 可手动编辑数据
+                readOnly: false
+              },
+              restore: {},  // 配置项还原
+              saveAsImage: {},  // 保存为图片
+            }
+          },
+          series: [{
+            name: text,
+            type: 'map',
+            map: type,
+            roam: true, // 控制地图鼠标缩放和拖拽
+            scaleLimit: { // 控制缩放比列
+              min: 1,
+              max: 10
+            },
+            label: {
+              show: true, // 地图上显示的字
+              color: '#fff',
+              fontSize: 10
+            },
+            itemStyle: { // 设置地图样式
+              areaColor: '#09295b', // 地图区域的颜色
+              borderColor: '#00ffff', //边界线颜色
+              borderWidth: 2, //边际线大小
+            },
+            emphasis: {  // 鼠标滑过样式
+              itemStyle: { //鼠标滑过区域样式
+                areaColor: '#3066ba', 
+              },
+              label: {   // 鼠标滑过文本样式
+                textStyle: {
+                  color: '#fff'
+                }
+              }
+            },
+            left: '10%',
+            right: '10%',
+            top: '10%',
+            bottom: '20%',
+            data: [],
+            nameMap: worldMap // 自定义地区的名称映射
+          }]
+        }
+      }
+
+      function drawMap(type, option) {
+        let id = type === 'china' ? 'chinaMap' : 'worldMap';
+        let dom = document.getElementById(id);
+        if (!!dom) {
+          let charts = echarts.init(dom);
+          option.series[0].data = [{
+            name: '新疆',
+            value: 2021
+          }]
+          charts.setOption(option);
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

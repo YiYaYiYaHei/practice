@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>echarts-自定义地图（省市）</title>
+  <link rel="stylesheet" type="text/css" href="./css/index.css" />
+</head>
+
+<body>
+  <div class="title">echarts4.8.0</div>
+  <div class="charts">
+    <div id="map" class="wfull"></div>
+  </div>
+
+
+  <script src="./js/package/dist/echarts.min.js"></script>
+  <script src="./js/data.js"></script>
+  <script>
+    window.onload = () => {
+      let option = {
+        title: {
+          text: '新疆省',
+          subtext: '新疆地市地图',
+          sublink: ''
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: (params) => {
+            return `<div class="charts-tooltip">
+                <i class="map-echarts-label">${params.name}</i><br/>
+                <i class="map-echats-value">数量：${params.value || 0}</i>
+                </div>`
+          }
+        },
+        series: [{
+          name: '新疆省',
+          type: 'map',
+          mapType: 'XJ', // 自定义扩展图表类型
+          roam: true, // 控制地图鼠标缩放和拖拽
+          scaleLimit: { // 控制缩放比列
+            min: 1,
+            max: 10
+          },
+          label: {
+            show: true, // 地图上显示的字
+            color: '#fff',
+            fontSize: 10
+          },
+          itemStyle: { // 设置地图样式
+            areaColor: '#09295b', // 地图区域的颜色
+            borderColor: '#00ffff', //边界线颜色
+            borderWidth: 2, //边际线大小
+          },
+          emphasis: { // 鼠标滑过样式
+            itemStyle: { //鼠标滑过区域样式
+              areaColor: '#3066ba',
+            },
+            label: { // 鼠标滑过文本样式
+              textStyle: {
+                color: '#fff'
+              }
+            }
+          },
+          left: '10%',
+          right: '10%',
+          top: '10%',
+          bottom: '20%',
+          data: []
+        }]
+      }
+
+      let dom = document.getElementById('map');
+      if (!!dom) {
+        let charts = echarts.init(dom);
+
+        /* registerMap注册地图-自定义地图map
+        数据格式要求很严格，需要很多参数
+        echarts也自带省参数echarts\js\package\map\js\province
+        各地市参数http://datav.aliyun.com/tools/atlas/#&lat=30.37018632615852&lng=106.68898666525287&zoom=3.5 
+        */
+        echarts.registerMap('XJ', MAP_XJ); 
+        
+        option.series[0].data = [{
+          name: '哈密市',
+          value: 2021
+        }]
+        charts.setOption(option);
+      }
+    }
+    
+    
+  </script>
+</body>
+
+</html>
