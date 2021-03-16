@@ -100,11 +100,17 @@
           type: 'effectScatter', // 气泡图
           coordinateSystem: 'geo', // 使用地理坐标系
           label: {
-            show: false, // 气泡上显示的字
+            show: true, // 气泡上显示的字
             color: '#fff',
-            fontSize: 10
+            fontSize: 12,
+            formatter: `20`,
+            position: ['50%', '60%'],
+            lineHeight: 20,
+            verticalAlign: 'middle',
+            align: 'center'
           },
           symbol: 'image://images/domain.png', // 修改气泡标记的图形，本地图片以"image://"开头
+          symbolSize: 20,
           itemStyle: { // 设置气泡样式
             borderColor: '#00ffff', //边界线颜色
             borderWidth: 1, //边际线大小
