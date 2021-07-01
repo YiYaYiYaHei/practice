@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="big_tit">
+    <span>话梅世界|</span>
+    <span>放映室|</span>
+    <span>线下门店|</span>
+  </div>
+  <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script>
+    //文字拱形显示
+    Arctext.prototype = {
+      init(options) {
+        this.initData(options);
+        this.render();
+
+      },
+      initData(options) {
+        var defaults = {
+          radius: 0,
+          dir: 1,
+          rotate: true,
+          fitText: false
+        }
+        this.options = $.extend(true, {}, defaults, options);
+        this.dir = this.options.dir;
+        this.rotate = this.options.rotate;
+        this.$el = $(this.options.el);
+        this.radius = this.options.radius;
+      },
+      render() {
+        let {
+          $el,
+          radius
+        } = this;
+        if ($el.length) {
+          $el.each((i, dom) => {
+            var a = $(dom).text().split(''),
+              emptyclass, after, inject;
+            inject = '';
+            if (a.length) {
+              $(a).each(function (i, item) {
+                emptyclass = '';
+                after = '';
+                if (item === ' ') {
+                  emptyclass = ' empty';
+                  item = '&nbsp;';
+                }
+                inject += '<span class="' + 'char' + (i + 1) + emptyclass + '">' + item + '</span>' + after;
+              });
+              $(dom).empty().append(inject);
+            }
+            this.letters = $(dom).find('span').css('display', 'inline-block');
+            this.handle();
+          })
+        }
+
+      },
+      handle() {
+        this.calcBase();
+        this.calcLetters();
+        this.rotateWord(this.animation)
+      },
+      calcBase() {
+        var dtWord = 0;
+        var self = this;
+        self.letters.each(function (i) {
+          var $letter = $(this),
+            letterWidth = $letter.outerWidth(true);
+          dtWord += letterWidth;
+          $letter.data('center', dtWord - letterWidth / 2);
+        });
+        var centerWord = dtWord / 2;
+        if (self.radius < centerWord) self.radius = centerWord;
+        var dtArcBase = dtWord;
+        var angle = 2 * Math.asin(dtArcBase / (2 * self.radius)); // Math.asin 返回值-PI/2 到 PI/2
+        self.dtArc = self.radius * angle;
+        self.dtWord = dtWord;
+      },
+      calcLetters() {
+        let {
+          radius,
+          letters,
+          dtWord,
+          dtArc,
+          rotate,
+          dir
+        } = this;
+        var _self = this,
+          iteratorX = 0;
+        console.log(letters)
+        letters.each(function (i) {
+          $letter = $(this),
+            dtArcLetter = ($letter.outerWidth(true) / dtWord) * dtArc,
+            beta = dtArcLetter / radius,
+            h = radius * (Math.cos(beta / 2)),
+            alpha = Math.acos((dtWord / 2 - iteratorX) / radius),
+            theta = alpha + beta / 2,
+            x = Math.cos(theta) * h,
+            y = Math.sin(theta) * h,
+            xpos = iteratorX + Math.abs(dtWord / 2 - x - iteratorX),
+            xval = 0 | xpos - $letter.data('center'),
+            yval = 0 | radius - y,
+            angle = (rotate) ? 0 | -Math.asin(x / radius) * (180 / Math.PI) : 0; //在角度和弧度之间转换
+          iteratorX = 2 * xpos - iteratorX;
+          $letter.data({
+            x: xval,
+            y: (dir === 1) ? yval : -yval,
+            a: (dir === 1) ? angle : -angle
+          });
+
+        });
+      },
+      rotateWord(animation) {
+        var _self = this;
+        let {
+          radius,
+          letters
+        } = this;
+        letters.each(function (i) {
+          console.log($(this).data())
+          var $letter = $(this),
+            transformation = (radius === -1) ? 'none' : 'translateX(' + $letter.data('x') + 'px) translateY(' +
+            $letter.data('y') + 'px) rotate(' + $letter.data('a') + 'deg)',
+            transition = (animation) ? 'all ' + (animation.speed || 0) + 'ms ' + (animation.easing || 'linear') :
+            'none';
+          $letter.css({
+              '-webkit-transition': transition,
+              '-moz-transition': transition,
+              '-o-transition': transition,
+              '-ms-transition': transition,
+              'transition': transition
+            })
+            .css({
+              '-webkit-transform': transformation,
+              '-moz-transform': transformation,
+              '-o-transform': transformation,
+              '-ms-transform': transformation,
+              'transform': transformation
+            });
+        });
+      }
+    }
+
+    function Arctext(options) {
+      this.init(options)
+    }
+    new Arctext({
+      el: '.big_tit',
+      radius: 200, //
+      //   rotate:false,  //默认true，为false则不旋转文字
+      //   dir:1        //默认1 (1：向下弯曲 非1（-1,0,2等）：向上弯曲 )
+    })
+  </script>
+</body>
+
+</html>
