@@ -1,0 +1,1 @@
+<label data-event-opts="{{[['tap',[['clickRadio',['$event']]]]]}}" bindtap="__e" class="data-v-5c4e6e73"><radio style="{{('transform:scale('+scale+')')}}" checked="{{checkedValue}}" disabled="{{disabled}}" color="{{color}}" class="data-v-5c4e6e73"></radio><text class="data-v-5c4e6e73">{{text}}</text></label>

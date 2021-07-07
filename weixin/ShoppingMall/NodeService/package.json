@@ -1,0 +1,34 @@
+{
+  "name": "EmptyExpress",
+  "version": "1.0.1",
+  "description": "empty express develop environment",
+  "main": "app.js",
+  "scripts": {
+    "start": "supervisor app.js"
+  },
+  "keywords": [
+    "node",
+    "express"
+  ],
+  "author": "demingsu1984@gmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "async": "^2.0.0-rc.5",
+    "body-parser": "^1.15.1",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.13.4",
+    "iconv-lite": "^0.4.13",
+    "jschardet": "^1.4.1",
+    "mongodb": "^2.2.1",
+    "multer": "^1.3.1",
+    "prop-types": "^15.6.2",
+    "querystring": "^0.2.1",
+    "socket.io": "^2.1.1"
+  },
+  "dependencies": {
+    "formidable": "^1.2.2",
+    "mysql": "^2.18.1",
+    "request": "^2.88.2",
+    "supervisor": "^0.12.0"
+  }
+}

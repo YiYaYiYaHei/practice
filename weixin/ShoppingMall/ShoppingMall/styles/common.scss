@@ -1,0 +1,191 @@
+// 字体样式
+.fs0 {
+	font-size: 0;
+}
+.fs-sm {
+	font-size: $uni-font-size-sm;
+}
+.fs-base {
+	font-size: $uni-font-size-base;
+}
+.fs-lg {
+	font-size: $uni-font-size-lg;
+}
+.fs-lgr {
+	font-size: $uni-font-size-lgr;
+}
+.icon-lg {
+	font-size: $uni-font-size-icon;
+}
+.icon-s {
+	font-size: $uni-font-size-icon-s;
+}
+.text-left {
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.text-justify {
+  text-align-last: justify;
+}
+.ellipsis {
+	@include text-ellipsis;
+}
+
+// 过渡
+.transition {
+	@include transition;
+}
+
+// 浮动
+.fr {
+  float: right;
+}
+.fl {
+  float: left;
+}
+/*清浮动*/
+.cls-float {
+  zoom: 1;
+  &:after {
+    content: '';
+    display: block;
+    width: 0;
+    clear: both;
+    visibility: hidden;
+    font-size: 0;
+    height: 0;
+  }
+}
+
+// display
+.dnone {
+  display: none;
+}
+.dblock {
+  display: block;
+}
+.dinlineb {
+  display: inline-block;
+	vertical-align: middle;
+}
+.vertical-m {
+	vertical-align: middle;
+}
+.vertical-t {
+	vertical-align: top;
+}
+.vertical-b {
+	vertical-align: bottom;
+}
+.box-sizing {
+	box-sizing: border-box!important;
+}
+
+// width、height
+.full {
+  width: 100%;
+  height: 100%;
+}
+.wfull {
+  width: 100%;
+}
+.hfull {
+  height: 100%;
+}
+
+// 定位
+.pr {
+	position: relative;
+}
+
+// margin
+.mg0 {
+	margin: 0px;
+}
+.mg20 {
+	margin: 20rpx;
+}
+.mgt50 {
+	margin-top: 50rpx;
+}
+.mgb20 {
+	margin-bottom: 20rpx;
+}
+
+// padding
+.pd0 {
+	padding: 0px;
+}
+.pd20 {
+	padding: 20rpx;
+}
+.pd30 {
+	padding: 30rpx;
+}
+.pdlr30 {
+	padding: 0 30rpx;
+}
+// 状态
+[data-status-text="primary"] {
+	@include textColor($uni-color-primary);
+}
+[data-status-text="warning"] {
+	@include textColor($uni-color-warning);
+} 
+[data-status-text="error"] {
+	@include textColor($uni-color-error);
+} 
+[data-status-text="success"] {
+	@include textColor($uni-color-success);
+} 
+[data-status-text="disabled"] {
+	@include textColor($uni-text-color-grey);
+} 
+[data-status-box="primary"] {
+	@include statusBox($uni-color-primary);
+}
+[data-status-box="warning"] {
+	@include statusBox($uni-color-warning);
+} 
+[data-status-box="error"] {
+	@include statusBox($uni-color-error);
+} 
+[data-status-box="success"] {
+	@include statusBox($uni-color-success);
+} 
+[data-status-box="disabled"] {
+	@include statusBox($uni-text-color-grey);
+}
+
+// 按钮
+.btn-large {
+	 width: 600rpx;
+	 @include line-height(80rpx);
+}
+
+// 其他
+.inherit {
+	font-size: inherit;
+	height: inherit;
+	line-height: inherit;
+}
+.fs-i {
+	font-size: inherit;
+}
+.h-i {
+	height: inherit;
+	line-height: inherit;
+}
+.box-shadow {
+	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.25);
+}
+.box-sizing {
+	box-sizing: border-box;
+}
+
+

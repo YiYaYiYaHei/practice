@@ -1,0 +1,9 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "base-header-layout": "/common/components/base-header-layout",
+    "base-count-down": "/common/components/base-count-down",
+    "base-progress": "/common/components/base-progress",
+    "home-block": "/pages/home/comp/homeBlock"
+  }
+}

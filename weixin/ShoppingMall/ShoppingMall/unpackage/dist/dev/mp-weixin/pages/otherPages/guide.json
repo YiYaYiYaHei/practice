@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "新手引导页",
+  "usingComponents": {
+    "base-guide": "/common/components/base-guide"
+  }
+}

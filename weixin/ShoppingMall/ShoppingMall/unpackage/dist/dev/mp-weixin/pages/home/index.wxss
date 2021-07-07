@@ -1,0 +1,213 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+/* 其他通用色 */
+/* 图标 */
+/*弹性盒子居中（传入null不设置该属性）*/
+/* 设置渐变border，多种渐变border，使用if判断自己添加样式 */
+/* 边框、渐变边框   使用渐变边框注意写width，@include border(bottom, 2px, null, bottom);*/
+/*绝对/相对/固定 定位  参数顺序：上右下左*/
+/*渐变(从上到下）*/
+/* 行高 */
+/* 画三角形 */
+/* 文本阴影 */
+/* 链接样式 */
+/* 定义滚动条样式 圆角和阴影不需要则传入null */
+/* css3动画 默认3s宽度到200px */
+/*transition动画函数定义*/
+/* 圆形盒子 */
+/* placeholder */
+.data-v-71e217db .home-block-container {
+  padding: 30rpx 20rpx;
+}
+.home-index-card-container.data-v-71e217db {
+  width: 100%;
+  height: 278rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-flex-wrap: nowrap;
+          flex-wrap: nowrap;
+  white-space: nowrap;
+}
+.home-index-card-container .home-index-card.data-v-71e217db {
+  width: calc(33.333% - 20rpx);
+  height: 268rpx;
+  background: #ffffff;
+  margin-right: 20rpx;
+  margin-top: 5rpx;
+  margin-bottom: 5rpx;
+}
+.home-index-card-container .home-index-card.data-v-71e217db:nth-of-type(1) {
+  margin-left: 5px;
+}
+.home-index-card-container .home-index-card .goods-img.data-v-71e217db {
+  width: 100%;
+  height: 120rpx;
+  overflow: hidden;
+  margin-bottom: 10rpx;
+}
+.home-index-card-container .home-index-card .goods-description.data-v-71e217db {
+  position: relative;
+  width: 100%;
+  height: 138rpx;
+  padding: 0 10rpx 10rpx;
+}
+.home-index-card-container .home-index-card .goods-description .goods-description-title.data-v-71e217db {
+  height: 28rpx;
+  line-height: 28rpx;
+}
+.home-index-card-container .home-index-card .goods-description .goods-description-price.data-v-71e217db {
+  height: 110rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.home-index-card-container .home-index-card .goods-description .goods-description-price .price.data-v-71e217db {
+  max-width: calc(100% - 56rpx);
+}
+.home-index-card-container .home-index-card .goods-description .goods-description-price .price > text.data-v-71e217db {
+  display: block;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+.home-index-card-container .home-index-card .goods-description .goods-description-price .price > text.data-v-71e217db:nth-of-type(2) {
+  color: #999;
+  text-decoration: line-through;
+}
+.home-index-card-container .home-index-card .goods-description .goods-description-price .card-img.data-v-71e217db {
+  width: 56rpx;
+  height: 56rpx;
+}
+.barfaining-container.data-v-71e217db {
+  width: 100%;
+  height: 140rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.barfaining-container .left.data-v-71e217db,
+.barfaining-container .right.data-v-71e217db {
+  width: calc(50% - 20rpx);
+  height: 100%;
+  background: #F2F2F2;
+  padding: 15rpx 0 15rpx 30rpx;
+}
+.barfaining-container .left .show-text.data-v-71e217db,
+.barfaining-container .right .show-text.data-v-71e217db {
+  width: 60%;
+  height: 100%;
+}
+.barfaining-container .left .show-text > text.data-v-71e217db,
+.barfaining-container .right .show-text > text.data-v-71e217db {
+  display: block;
+  width: 100%;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+.barfaining-container .left .show-text > text.data-v-71e217db:nth-of-type(1),
+.barfaining-container .right .show-text > text.data-v-71e217db:nth-of-type(1) {
+  font-size: 32rpx;
+  color: #333;
+}
+.barfaining-container .left .show-text > text.data-v-71e217db:nth-of-type(2),
+.barfaining-container .right .show-text > text.data-v-71e217db:nth-of-type(2) {
+  font-size: 26rpx;
+  color: #999;
+}
+.barfaining-container .left .show-text > text.data-v-71e217db:nth-of-type(3),
+.barfaining-container .right .show-text > text.data-v-71e217db:nth-of-type(3) {
+  font-size: 24rpx;
+  color: #12A550;
+}
+.barfaining-container .left .show-image.data-v-71e217db,
+.barfaining-container .right .show-image.data-v-71e217db {
+  width: 40%;
+  height: 100rpx;
+}
+.barfaining-container .left.data-v-71e217db {
+  border-radius: 0 30px 30px 0;
+}
+.barfaining-container .right.data-v-71e217db {
+  padding-left: 40rpx;
+  border-radius: 30px 0 0 30px;
+}
+.goods-description-group-price > text.data-v-71e217db {
+  display: inline-block;
+  vertical-align: middle;
+  width: 50%;
+}
+.goods-description-group-price > text.data-v-71e217db:nth-of-type(2) {
+  color: #999;
+  text-decoration: line-through;
+}
+.data-v-71e217db .base-progress-bar__outer {
+  margin: 20rpx 0;
+}
+.group-bottom.data-v-71e217db {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background: rgba(18, 165, 80, 0.5);
+  color: white;
+}
+
