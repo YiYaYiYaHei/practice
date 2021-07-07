@@ -14,6 +14,6 @@
 ---
 
 > arcText.html
-1.arcText.html 弧形文字
+1. arcText.html 弧形文字
 
 
