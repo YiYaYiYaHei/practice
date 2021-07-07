@@ -3,6 +3,7 @@
   "navigationStyle": "custom",
   "usingComponents": {
     "base-header-layout": "/common/components/base-header-layout",
-    "base-tab": "/common/components/base-tab"
+    "base-tab": "/common/components/base-tab",
+    "base-image": "/common/components/base-image"
   }
 }

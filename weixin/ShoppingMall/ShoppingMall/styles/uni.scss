@@ -38,6 +38,8 @@ image {
 }
 // 防止 image 样式生效较慢，出现 “闪一下” 的情况
 image {
+	width: 100%;
+	height: 100%;
 	image{will-change: transform};
 }
 

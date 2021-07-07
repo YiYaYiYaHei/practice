@@ -2,12 +2,12 @@
 	<view class="base-tab-container full" :data-tab-pos="tabPos">
 		<template v-if="isObject">
 			<scroll-view class="full scroll-view" :scroll-x="tabPos==='row'" :scroll-y="tabPos==='column'">
-				<view>
+				<view class="scroll-view-box">
 					<view class="base-tab-item"
 					      v-for="item, i in options"
 								:key="item[valueKey]"
 								@click="changeTab(item)"
-								:class="{'active': activeKey === item[valueKey]}">
+								:class="{'active': activeKey == item[valueKey]}">
 						<text class="base-tab-item-text dinlineb wfull">{{item[label]}}</text>
 					</view>
 				</view>
@@ -21,7 +21,7 @@
 					      v-for="item, i in options"
 								:key="item"
 								@click="changeTab(item)"
-								:class="{'active': activeKey === item}">
+								:class="{'active': activeKey == item}">
 						<text class="base-tab-item-text dinlineb wfull">{{item}}</text>
 					</view>
 				</view>

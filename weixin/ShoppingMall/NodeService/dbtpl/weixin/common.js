@@ -24,7 +24,7 @@ function getResData(result) {
       message: result.message || '',
       data: {
         total: result.total,
-        rows: result.data
+        rows: result.data || []
       }
     }
   } else {

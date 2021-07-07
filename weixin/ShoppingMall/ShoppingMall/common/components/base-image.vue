@@ -26,7 +26,7 @@
 		props: {
 			mode: {
 				type: String,
-				default: 'scaleToFill'
+				default: 'aspectFit'
 			},
 			imgSrc: {
 				type: String,

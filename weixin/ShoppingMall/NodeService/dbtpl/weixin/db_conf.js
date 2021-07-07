@@ -178,7 +178,6 @@ const getTotal = (tableName, column = '*', db, where) => {
  * 分页：limit (pageNo-1)*pageSize, pageSize;  ----  第一个参数(pageNo-1)*pageSize是从哪开始查，第二个参数pageSize是查询个数
  */
 const findFunc = (tableName, data) => {
-  console.log(data)
   return new Promise(async (resolve, reject) => {
     if(!tableName) {
       reject({status: 201, message: '表名不能为空'});

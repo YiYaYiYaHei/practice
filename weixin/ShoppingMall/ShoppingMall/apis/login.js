@@ -10,6 +10,9 @@ export default {
 	homeGetGoodsList: params => ajax.post('/wx/home/goods/list', params, {showLoading: false}),
 	homeGetGoodsDeatil: params => ajax.post('/wx/home/goods/detail', params),
 	
+	classificationGetClassList: params => ajax.get('/wx/classification/tab/list', params),
+	classificationGetList: params => ajax.post('/wx/classification/list', params),
+	
   getList: (params, taskCallBack) => ajax.post('/plat/net', params, {isTask: true, taskCallBack: taskCallBack}),
   addTask: params => ajax.get('/plat/cabinet', params),
 	fileUpload: params => ajax.upload('/upload', params),

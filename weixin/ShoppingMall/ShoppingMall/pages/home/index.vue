@@ -1,5 +1,5 @@
 <template>
-	<base-header-layout :hasDrawer="true">
+	<base-header-layout title="首页" :hasDrawer="true">
 		<!-- 轮播图 -->
 		<swiper class="swiper" :circular="true">
 			<swiper-item>
