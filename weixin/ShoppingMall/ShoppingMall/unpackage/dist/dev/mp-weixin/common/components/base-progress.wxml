@@ -1,1 +1,0 @@
-<view class="base-progress-bar__outer data-v-5aa072f6"><view class="base-progress-bar__inner data-v-5aa072f6" style="{{'width:'+(percentage+'px')+';'+('background:'+(bgColor)+';')}}"></view><text class="base-progress-bar__text data-v-5aa072f6">{{showText===''?percentage+'%':showText}}</text></view>
