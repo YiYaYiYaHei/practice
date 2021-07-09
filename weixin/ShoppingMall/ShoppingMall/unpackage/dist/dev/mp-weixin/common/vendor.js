@@ -4824,11 +4824,20 @@ var _uniTools = _interopRequireDefault(__webpack_require__(/*! ./uniTools.js */ 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * @return {Object}
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          */
 var getModules = function getModules(name) {
-  var modulesFiles;
-  if (name === 'directives') modulesFiles = __webpack_require__(14);
-  if (name === 'components') modulesFiles = __webpack_require__(15);
-  if (name === 'apis') modulesFiles = __webpack_require__(94);
-  if (name === 'mixins') modulesFiles = __webpack_require__(111);
+  var modulesFiles, dir, reg;
+  switch (name) {
+    case 'directives':
+      modulesFiles = __webpack_require__(14);
+      break;
+    case 'components':
+      modulesFiles = __webpack_require__(15);
+      break;
+    case 'apis':
+      modulesFiles = __webpack_require__(94);
+      break;
+    case 'mixins':
+      modulesFiles = __webpack_require__(111);
+      break;}
 
   return modulesFiles.keys().reduce(function (modules, modulePath) {
     var moduleName = modulePath.replace(/^\.\/(.+)\.(js|vue)$/, '$1');

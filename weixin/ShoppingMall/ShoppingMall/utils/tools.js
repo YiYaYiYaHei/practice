@@ -9,18 +9,27 @@ import uniTools from './uniTools.js';
  * @return {Object}
  */
 const getModules = (name) => {
-	let modulesFiles;
-	  if (name === 'directives') modulesFiles = require.context('@/common/directives/', true, /^.+(?<!index)\.js$/);
-	  if (name === 'components') modulesFiles = require.context('@/common/components/', true, /^.+(?<!index)\.(js|vue)$/);
-		if (name === 'apis') modulesFiles = require.context('@/apis/', true, /^.+(?<!index)\.js$/);
-		if (name === 'mixins') modulesFiles = require.context('@/mixins/', true, /^.+(?<!index)\.(js|vue)$/);
-	
-	  return modulesFiles.keys().reduce((modules, modulePath) => {
-	    const moduleName = modulePath.replace(/^\.\/(.+)\.(js|vue)$/, '$1');
-	    const value = modulesFiles(modulePath);
-	    value.default && (modules[moduleName] = value.default);
-	    return modules;
-	  }, {});
+	let modulesFiles, dir, reg;
+	switch(name) {
+		case 'directives':
+			modulesFiles = require.context('@/common/directives/', true, /^.+(?<!index)\.js$/);
+			break;
+		case 'components':
+			modulesFiles = require.context('@/common/components/', true, /^.+(?<!index)\.(js|vue)$/);
+			break;
+		case 'apis':
+			modulesFiles = require.context('@/apis/', true, /^.+(?<!index)\.js$/);
+			break;
+		case 'mixins':
+			modulesFiles = require.context('@/mixins/', true, /^.+(?<!index)\.(js|vue)$/);
+			break;
+	}
+	return modulesFiles.keys().reduce((modules, modulePath) => {
+		const moduleName = modulePath.replace(/^\.\/(.+)\.(js|vue)$/, '$1');
+		const value = modulesFiles(modulePath);
+		value.default && (modules[moduleName] = value.default);
+		return modules;
+	}, {});
 }
 
 /**
