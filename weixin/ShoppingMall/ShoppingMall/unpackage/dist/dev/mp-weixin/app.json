@@ -62,6 +62,5 @@
       "desc": "需要定位您的位置"
     }
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap.json"
+  "usingComponents": {}
 }

@@ -2,11 +2,9 @@
  * 过滤器、指令、原型、组件全局注册
  * 最好使用easycom组件规范，即在/components下创建组件（官网解释：easycom打包后会自动剔除没有使用的组件，对组件库的使用尤为友好）
  *********************************************************************/
-
+import { getModules } from '../utils/tools.js';
 import * as Filters from "./filters.js";
-import * as Directives from "./directives.js";
 import * as Prototypes from "./prototypes.js";
-import * as Components from "./components.js";
 
 export default {
   install(Vue) {
@@ -26,6 +24,7 @@ export default {
   },
 
   registerDirective(Vue) {
+		const Directives = getModules('directives');
     for (let name in Directives) {
       if (Directives.hasOwnProperty(name)) {
         /* 注册指令 */
@@ -44,6 +43,7 @@ export default {
   },
 	
 	registerComponents(Vue) {
+		const Components = getModules('components');
 		for (let name in Components) {
 			if (Components.hasOwnProperty(name)) {
 				// 生成组件名：comp-name格式

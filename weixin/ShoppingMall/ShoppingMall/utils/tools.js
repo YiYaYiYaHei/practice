@@ -4,6 +4,26 @@
 import uniTools from './uniTools.js';
 
 /**
+ * 拿到指定路径下面的模块，减少index.js文件 require.context - dir reg 不能用变量
+ * @param {string} name
+ * @return {Object}
+ */
+const getModules = (name) => {
+	let modulesFiles;
+	  if (name === 'directives') modulesFiles = require.context('@/common/directives/', true, /^.+(?<!index)\.js$/);
+	  if (name === 'components') modulesFiles = require.context('@/common/components/', true, /^.+(?<!index)\.(js|vue)$/);
+		if (name === 'apis') modulesFiles = require.context('@/apis/', true, /^.+(?<!index)\.js$/);
+		if (name === 'mixins') modulesFiles = require.context('@/mixins/', true, /^.+(?<!index)\.(js|vue)$/);
+	
+	  return modulesFiles.keys().reduce((modules, modulePath) => {
+	    const moduleName = modulePath.replace(/^\.\/(.+)\.(js|vue)$/, '$1');
+	    const value = modulesFiles(modulePath);
+	    value.default && (modules[moduleName] = value.default);
+	    return modules;
+	  }, {});
+}
+
+/**
  * @description 根据毫秒，获取时分秒
  * @param {Number} time 
  * @return {String} 10:01:01
@@ -404,6 +424,9 @@ let isIp = function (str) {
   return reg.test(str);
 };
 
+export {
+	getModules
+}
 
 export default {
 	formatTime,

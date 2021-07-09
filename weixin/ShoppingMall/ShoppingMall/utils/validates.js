@@ -6,7 +6,7 @@
  * @param {Function} callback - 回调函数
  *********************************************************************/
 import Tools from '@/utils/tools.js';
-import Apis from '@/apis/index.js';
+import Apis from '@/apis/login.js';
 
 /**
  * @description 密码验证方法

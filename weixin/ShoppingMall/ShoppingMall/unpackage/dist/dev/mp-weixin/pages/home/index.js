@@ -96,13 +96,13 @@ var components
 try {
   components = {
     baseHeaderLayout: function() {
-      return Promise.all(/*! import() | common/components/base-header-layout */[__webpack_require__.e("common/vendor"), __webpack_require__.e("common/components/base-header-layout")]).then(__webpack_require__.bind(null, /*! @/common/components/base-header-layout.vue */ 58))
+      return Promise.all(/*! import() | common/components/base-header-layout */[__webpack_require__.e("common/vendor"), __webpack_require__.e("common/components/base-header-layout")]).then(__webpack_require__.bind(null, /*! @/common/components/base-header-layout.vue */ 30))
     },
     baseCountDown: function() {
-      return __webpack_require__.e(/*! import() | common/components/base-count-down */ "common/components/base-count-down").then(__webpack_require__.bind(null, /*! @/common/components/base-count-down.vue */ 44))
+      return __webpack_require__.e(/*! import() | common/components/base-count-down */ "common/components/base-count-down").then(__webpack_require__.bind(null, /*! @/common/components/base-count-down.vue */ 16))
     },
     baseProgress: function() {
-      return __webpack_require__.e(/*! import() | common/components/base-progress */ "common/components/base-progress").then(__webpack_require__.bind(null, /*! @/common/components/base-progress.vue */ 80))
+      return __webpack_require__.e(/*! import() | common/components/base-progress */ "common/components/base-progress").then(__webpack_require__.bind(null, /*! @/common/components/base-progress.vue */ 55))
     }
   }
 } catch (e) {
@@ -166,7 +166,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 24));
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 36));
 
 
 
@@ -271,7 +271,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
-var _common = _interopRequireDefault(__webpack_require__(/*! @/mixins/common.js */ 63));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var HomeBlock = function HomeBlock() {__webpack_require__.e(/*! require.ensure | pages/home/comp/homeBlock */ "pages/home/comp/homeBlock").then((function () {return resolve(__webpack_require__(/*! ./comp/homeBlock.vue */ 303));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+var _common = _interopRequireDefault(__webpack_require__(/*! @/mixins/common.js */ 35));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var HomeBlock = function HomeBlock() {__webpack_require__.e(/*! require.ensure | pages/home/comp/homeBlock */ "pages/home/comp/homeBlock").then((function () {return resolve(__webpack_require__(/*! ./comp/homeBlock.vue */ 301));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 {
   mixins: [_common.default],
