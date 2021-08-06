@@ -1,7 +1,7 @@
 /*********************************************************************
  * ajax使用的是luch-request---https://www.quanzhan.co/luch-request/guide/3.x
  *********************************************************************/
- 
+
 import Request from '@/plugins/luch-request/luch-request/index.js';
 import * as UrlConfig from '@/apis/url.config.js';
 import store from '@/store/index.js';
@@ -26,9 +26,9 @@ request.interceptors.request.use((config) => {
 request.interceptors.response.use((response) => {
 	// 去除response的data层 直接使用数据就可以res.xx即可
 	return response.data;
-}, (response) => { 
+}, (response) => {
   return Promise.reject(response)
-})
+});
 
 // 获取请求地址
 const getUrl = (url, urlPrefix = 'BASE_URL') => {
@@ -61,13 +61,13 @@ const buildReqHeader = (requestConfig) => {
 		"Content-Type": requestConfig.contentType,
 		"Authorization": token
 	};
-} 
+}
 
 // 构建请求配置
 const buildRequestConfig = (requestConfig) => {
 	const config = {};
 	config.header = buildReqHeader(requestConfig);
-	/** 
+	/**
 	 * 方法只能是大写--GET|POST|PUT|DELETE|CONNECT|HEAD|OPTIONS|TRACE|UPLOAD|DOWNLOAD
 	 * UPLOAD: 实际是contentType为multipart/form-data的post请求, 可以获取文件上传的各种进度,
 	 * DOWNLOAD: 实际是GET请求, 可以获取文件下载的各种进度
@@ -85,34 +85,34 @@ const buildRequestConfig = (requestConfig) => {
 	} else {
 		config[/GET|DELETE|DOWNLOAD/.test(config.method) ? 'params' : 'data'] = transformRequestData(requestConfig);
 	}
-	
+
 	// 请求超时时间
 	config.timeout = TIME_OUT;
-	
+
 	// #ifdef APP-PLUS
 	config.firstIpv4 = false; // DNS解析时优先使用ipv4 仅 App-Android 支持 (HBuilderX 2.8.0+)
 	// #endif
-	
+
 	// 注：如果局部custom与全局custom有同名属性，则后面的属性会覆盖前面的属性，相当于Object.assign(全局，局部)
 	config.custom = {}; // 可以加一些自定义参数，在拦截器等地方使用。
-	
+
 	// #ifdef APP-PLUS
 	// 验证 ssl 证书 仅5+App安卓端支持（HBuilderX 2.3.3+）
 	config.sslVerify = true;
 	// #endif
-	
+
 	// #ifdef H5
 	// 跨域请求时是否携带凭证（cookies）仅H5支持（HBuilderX 2.6.15+）
 	config.withCredentials = false;
 	// #endif
-	
+
 	// requestTask: 返回当前请求的task, options。请勿在此处修改options。--可以中断请求
 	if (requestConfig.isTask) {
 		config.getTask = (task, options) => {
 			requestConfig.taskCallBack && (typeof requestConfig.taskCallBack === 'function') && requestConfig.taskCallBack(task, options);
 		};
 	}
-	
+
 	return config;
 }
 
@@ -186,12 +186,12 @@ const sendDownLoadReq = async (requestConfig) => {
 	}
 }
 
-/** 
+/**
  * @description 请求方法封装  get/post/delete/put/upload/download
  * @param {String} url - 请求地址
  * @param {Object} params - 请求参数
  * @param {Object} config - 请求接口配置
- *        {Boolean} config.isTask - 该请求是否需要requestTask 
+ *        {Boolean} config.isTask - 该请求是否需要requestTask
  *        {Function} config.taskCallBack - requestTask 的回调函数
  * 				{Function} config.successCb - 接口调用成功 的回调函数
  *        {Function} config.errorCb - 接口调用失败 的回调函数

@@ -60,7 +60,7 @@ module.exports = (app) => {
         // 获取文件大小
         const size = fs.statSync(filePath).size;
         res.writeHead(200, {
-          'Content-Disposition': 'attachment; filename=' + req.query.name,  // 告诉浏览器这是一个需要以附件形式下载的文件（浏览器下载的默认行为，前端可以从这个响应头中获取文件名：前端使用ajax请求下载的时候，后端若返回文件流，此时前端必须要设置文件名-主要是为了获取文件后缀，否则前端会默认为txt文件）
+          'Content-Disposition': 'attachment; filename=' + encodeURIComponent(req.query.name),  // 告诉浏览器这是一个需要以附件形式下载的文件（浏览器下载的默认行为，前端可以从这个响应头中获取文件名：前端使用ajax请求下载的时候，后端若返回文件流，此时前端必须要设置文件名-主要是为了获取文件后缀，否则前端会默认为txt文件）
           'Content-Type': 'application/octet-stream',  // 告诉浏览器是二进制文件，不要直接显示内容
           'Content-Length': size,   // 下载文件大小
           'Access-Control-Allow-Origin': '*',

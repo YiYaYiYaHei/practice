@@ -34,7 +34,7 @@ const getModules = (name) => {
 
 /**
  * @description 根据毫秒，获取时分秒
- * @param {Number} time 
+ * @param {Number} time
  * @return {String} 10:01:01
  * @example this.$util.formatTime(0)
  */
@@ -57,7 +57,7 @@ const formatTime = (time) => {
 
 /**
  * @description 格式化地理坐标
- * @param {String | Float} longitude 
+ * @param {String | Float} longitude
  * @param {String | Float} latitude
  * @return {Object} {longitude:Array,latitude:array}
  * @example this.$util.formatLocation(20.99,30.00) {longitude:[20,99],latitude:[30,00]}
@@ -102,11 +102,11 @@ const dateUtils = {
 		humanize: function(targetDate, currentDate, type ='string') {
 			try {
 				currentDate = currentDate || formatDate();
-				
+
 				// ios 系统上时间转换上不支持-，需要替换成/
 				currentDate = currentDate.replace(/-/g, '/');
 				targetDate = targetDate.replace(/-/g, '/');
-				
+
 				const [t_timeStamp, c_timeStamp] = [+new Date(targetDate), +new Date(currentDate)];
 				let [diff_timeStamp, milliseconds] = [t_timeStamp - c_timeStamp, Math.abs(t_timeStamp - c_timeStamp)];
 				const defaultStr = diff_timeStamp > 0 ? '后' : '前';
@@ -118,7 +118,7 @@ const dateUtils = {
 					}
 				}
 				humanize = type === 'array' ? humanize.match(/\d+/g) : humanize ? (humanize + defaultStr) : '刚刚';
-				return humanize; 
+				return humanize;
 			} catch(e) {
 				uniTools.showToast({title: '时间传参错误'});
 			}
@@ -126,9 +126,9 @@ const dateUtils = {
 
 		/**
 		 * @description 格式化日期 yyyy-mm-dd HH:MM:ss 转为 yyyy/mm/dd-HH:MM
-		 * @param {String} dateStr 
+		 * @param {String} dateStr
 		 * @return {String} "2019/10/14-10:10"
-		 * @example  this.$tools.dateUtils.format("2019-10-14 10:10:10")  
+		 * @example  this.$tools.dateUtils.format("2019-10-14 10:10:10")
 		 */
 		format: function(dateStr) {
 			var date = this.parse(dateStr)
