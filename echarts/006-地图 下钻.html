@@ -31,10 +31,10 @@
       if (!!dom) {
         charts = echarts.init(dom);
         drawCharts('china');
-        
+
         bindClickEvt();
       }
-      
+
       // 绘制地图
       function drawCharts(name) {
         option = setOption(name);
@@ -44,7 +44,7 @@
         }];
         charts.setOption(option);
       }
-      
+
       // 地图绑定事件
       function bindClickEvt() {
         charts.on('click', params => {
@@ -156,7 +156,7 @@
           }]
         }
       }
-      
+
       // 请求本地文件，注意浏览器同源策略的限制
       function ajaxJson(url, name) {
         var ajax = new XMLHttpRequest();
@@ -172,10 +172,10 @@
             }
         });
       }
-      
+
       // 注册自定义地图
       function registerMapEvt(mapData, name) {
-        echarts.registerMap(name, mapData); 
+        echarts.registerMap(name, mapData);
         charts.clear();
         drawCharts(name)
       }

@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "formidable": "^1.2.2",
+    "log4js": "^6.3.0",
     "mysql": "^2.18.1",
     "request": "^2.88.2",
     "supervisor": "^0.12.0"

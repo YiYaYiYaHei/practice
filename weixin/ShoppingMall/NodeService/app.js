@@ -7,6 +7,7 @@ const express = require('express'),
   formReq = require('./dbtpl/formReq'),
   fileReq = require('./dbtpl/fileReq'),
   weixinReq = require('./dbtpl/weixin/index.js'),
+  vueCliReq = require('./dbtpl/vueCliReq'),
   socket = require('./dbtpl/socket');
 
 /* 设置启动静态资源路径和请求编码及转义 */
@@ -42,6 +43,9 @@ fileReq(app);
 
 /* 微信小程序接口 */
 weixinReq(app);
+
+/* vue-cli-empty 接口*/
+vueCliReq(app);
 
 /* socket 接入 */
 socket(app, server);
