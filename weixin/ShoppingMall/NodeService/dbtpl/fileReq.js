@@ -9,9 +9,10 @@ module.exports = (app) => {
       form.encoding = 'utf-8';                  // 设置编辑
       form.uploadDir = 'public/upload/';        // 设置上传目录
       form.keepExtensions = true;               // 保留后缀
-      form.maxFieldsSize = 2 * 1024 * 1024;     // 文件大小（默认2M）
+      form.maxFieldsSize = 2 * 1024 * 1024;     // 文件大小（默认20M）
 
     form.parse(req, function(err, fields, files) {
+      console.log(err, Boolean(err), fields, files);
       if (err) {
         res.send({
           status: 201,
@@ -20,6 +21,7 @@ module.exports = (app) => {
         return;
       };
       try {
+        // 若文件流的键名为uplaodFile，则filename = files.uplaodFile.name
         var filename = files.file.name;
         // 对文件名进行处理，以应对上传同名文件的情况
         var nameArray = filename.split('.');
@@ -34,6 +36,7 @@ module.exports = (app) => {
         var avatarName = name + num +  '.' + type;
 
         var newPath = form.uploadDir + avatarName ;
+        // 若文件流的键名为uplaodFile，则fs.renameSync(files.uplaodFile.path, newPath)
         fs.renameSync(files.file.path, newPath);  //重命名
         res.send({status: 200, message: '文件上传成功'});
       } catch (err) {

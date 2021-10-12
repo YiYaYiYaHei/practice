@@ -12,11 +12,12 @@
   <button>文件上传</button>
 
   <!-- 第二种：动态创建input标签 -->
-  <button onclick="fileUploadNode(getUploadFileEvt, {isMultiple: true, acceptType: '.zip', acceptTypeErrMsg: '只能支持上传zip', limitSize: 200 * 1024 * 1024})">input文件上传</button>
+  <button style="display: block; margin-top: 20px" onclick="fileUploadNode(getUploadFileEvt, {isMultiple: true, acceptType: '.zip', acceptTypeErrMsg: '只能支持上传zip', limitSize: 200 * 1024 * 1024})">input文件上传</button>
   <script>
     function changeFile(el) {
       const files = el.files;
       console.log('上传的文件：', files);
+      uploadFileEvt('http://192.168.66.183:13666/upload', {file: files});
     }
     /**
      * 判断文件名是否是指定类型
@@ -102,6 +103,78 @@
     function getUploadFileEvt(files) {
       alert('朋友，获取到上传的文件了，请看控制台');
       console.log(files);
+      uploadFileEvt('http://192.168.66.183:13666/upload', {file: files});
+    }
+    // 根据header里的contenteType转换请求参数
+    function transformRequestData(contentType, requestData) {
+      requestData = requestData || {};
+      if (contentType.includes('application/x-www-form-urlencoded')) {
+        // formData格式：key1=value1&key2=value2，方式二：qs.stringify(requestData, {arrayFormat: 'brackets'}) -- {arrayFormat: 'brackets'}是对于数组参数的处理
+        let str = '';
+        for (const key in requestData) {
+          if (Object.prototype.hasOwnProperty.call(requestData, key)) {
+            str += `${key}=${requestData[key]}&`;
+          }
+        }
+        return encodeURI(str.slice(0, str.length - 1));
+      } else if (contentType.includes('multipart/form-data')) {
+        const formData = new FormData();
+        for (const key in requestData) {
+          const files = requestData[key];
+          // 判断是否是文件流
+          const isFile = files ? files.constructor === FileList || (files.constructor === Array && files[0].constructor === File) : false;
+          if (isFile) {
+            for (let i = 0; i < files.length; i++) {
+              formData.append(key, files[i]);
+            }
+          } else {
+            formData.append(key, files);
+          }
+        }
+        return formData;
+      }
+      // json字符串{key: value}
+      return Object.keys(requestData).length ? JSON.stringify(requestData) : '';
+    }
+    /**
+     * ajax实现文件下载、获取文件下载进度
+     * @param {String} url
+     * @param {Object} [params] - 请求参数，{name: '文件下载'}
+     * @param {Object} [config] - 方法配置
+     */
+     function uploadFileEvt(url, params, config) {
+      const _config = Object.assign({
+        contentType: 'multipart/form-data',                        // 请求头类型
+        token: 'token'                                             // 用户token
+      }, config);
+
+      const queryParams = transformRequestData(_config.contentType, params);
+
+      const ajax = new XMLHttpRequest();
+      ajax.open('post', url, true);
+      ajax.setRequestHeader('Authorization', _config.token);
+      // 不能设置content-type - 后端接收的时候需要multipart/form-data; boundary=----WebKitFormBoundaryALLEekH0L0BdZLO3（boundary是自己生成的）
+      // ajax.setRequestHeader('Content-Type', _config.contentType);
+
+      // 获取文件上传进度 -- 异步才会触发，若ajax为同步则不会触发进度监听
+      ajax.upload.addEventListener('progress', (progress) => {
+        const percentage = ((progress.loaded / progress.total) * 100).toFixed(2);
+        const msg = `上传进度 ${percentage}%...`;
+        console.log(msg);
+      }, false);
+      ajax.onload = function () {
+        if (this.status === 200 || this.status === 304) {
+          if (this.response.status === 200) {
+            alert('文件上传成功');
+          } else {
+            alert('服务器出现问题，请联系管理员');
+          }
+        } else {
+          alert('服务器出现问题，请联系管理员');
+        }
+      };
+      // send(string): string：仅用于 POST 请求
+      ajax.send(queryParams);
     }
   </script>
 </body>
