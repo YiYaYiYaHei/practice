@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <title>iframe下载</title>
+</head>
+<body>
+  <button onclick="downloadEvt('http://192.168.66.183:13666/download?name=HAP.pdf')">iframe下载</button>
+  <script>
+    // 批量下载时，动态创建a标签，会始终只下载一个文件，改为动态创建iframe标签
+    function downloadEvt(url) {
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = url;
+      document.body.appendChild(iframe);
+      setTimeout(() => {
+        document.body.removeChild(iframe);
+      }, 200);
+    }
+  </script>
+</body>
+</html>

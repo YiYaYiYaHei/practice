@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <title>form标签下载</title>
+</head>
+<body>
+  <button onclick="inputDownloadEvt('get', 'http://192.168.66.183:13666/download', 'name', 'HAP.pdf')">form标签下载</button>
+  <script>
+    /**
+     * @param {String} method - 请求方法get/post
+     * @param {String} url
+     * @param {String} paramsKey - 请求参数名
+     * @param {String} paramsValue - 请求参数值
+    */
+    function inputDownloadEvt(method, url, paramsKey, paramsValue) {
+      const form = document.createElement('form');
+      form.style.display = 'none';
+      form.setAttribute('target', '_blank');
+      form.setAttribute('method', method);
+      form.setAttribute('action', url);
+      const input = document.createElement('input');
+      input.setAttribute('type','hidden');
+      // 对于get请求 最终会拼成http://192.168.66.183:13666/download?name=HAP.pdf
+      input.setAttribute('name', paramsKey);
+      input.setAttribute('value', paramsValue);
+      form.appendChild(input);
+      document.body.appendChild(form);
+      form.submit();
+      document.body.removeChild(form);
+    }
+  </script>
+</body>
+</html>
