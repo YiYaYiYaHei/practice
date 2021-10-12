@@ -25,7 +25,9 @@ const server = app.listen(port, function () {
 /* 设置CORS跨域 */
 app.all('*', function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With,token");
+  // res.header("Access-Control-Allow-Headers", "X-Requested-With,token");
+  // 解决跨域
+  res.header("Access-Control-Allow-Headers", "content-type,x-requested-with,Authorization,x-ui-request,lang,accept,access-control-allow-origin");
   res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
   res.header("X-Powered-By", ' 3.2.1');
   res.header("Content-Type", "application/json;charset=utf-8");
