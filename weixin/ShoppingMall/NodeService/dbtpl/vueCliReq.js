@@ -20,7 +20,7 @@ const commonDeal = async (req, res, cb) => {
   }
   if (typeof cb === 'function') {
     const data = await cb();
-    const msg = `${req.method} -- 地址：${req.url}， 响应：${JSON.stringify(data)}`;
+    const msg = `${req.method} -- 地址：${req.url}， 响应：${JSON.stringify({status: data.status, message: data.message})}`;
     /401|201|500/g.test(data.status) ? loggerError.error(msg) : logger.info(msg);
     res.send(data);
   } else {

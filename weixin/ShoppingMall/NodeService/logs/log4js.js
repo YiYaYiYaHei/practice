@@ -6,7 +6,7 @@ log4js.configure({
   replaceConsole: true,
   appenders: {
     stdout: {
-      //控制台输出
+      //将日志在 控制台输出
       type: 'console'
     },
     info: {

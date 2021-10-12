@@ -1,4 +1,0 @@
-[2021-10-08T18:09:57.879] [ERROR] error - POST -- 地址：/checkOldPwd?_date=1633687797843， 响应：{"status":201,"message":"旧密码错误","data":true}
-[2021-10-08T18:29:40.325] [ERROR] error - POST -- 地址：/checkOldPwd?_date=1633688980315， 响应：{"status":201,"message":"旧密码错误","data":true}
-[2021-10-08T18:29:55.197] [ERROR] error - POST -- 地址：/checkOldPwd?_date=1633688995147， 响应：{"status":201,"message":"旧密码错误","data":true}
-[2021-10-08T19:10:22.370] [ERROR] error - POST -- 请求地址：/chart/pie?_date=1633691422326， 请求参数：{}，错误原因：hearder中无token
