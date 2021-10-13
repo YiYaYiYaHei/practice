@@ -164,7 +164,8 @@
       }, false);
       ajax.onload = function () {
         if (this.status === 200 || this.status === 304) {
-          if (this.response.status === 200) {
+          const result = JSON.parse(this.response || '{status: 500}');
+          if (result.status === 200) {
             alert('文件上传成功');
           } else {
             alert('服务器出现问题，请联系管理员');

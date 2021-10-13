@@ -12,7 +12,6 @@ module.exports = (app) => {
       form.maxFieldsSize = 2 * 1024 * 1024;     // 文件大小（默认20M）
 
     form.parse(req, function(err, fields, files) {
-      console.log(err, Boolean(err), fields, files);
       if (err) {
         res.send({
           status: 201,
