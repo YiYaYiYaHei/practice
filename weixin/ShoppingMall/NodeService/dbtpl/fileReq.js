@@ -53,6 +53,7 @@ module.exports = (app) => {
     try {
       // 获取文件路径
       let filePath = path.join(__dirname,'../public/upload/' + req.query.name);
+      // fs.readFile 和 fs.writeFile有内存限制问题，下载大文件时，会提示"ERR_FS_FILE_TOO_LARGE"，因此大文件采用createReadStream
       fs.readFile(filePath, (err, data) => {
         if (err) {
           res.send({

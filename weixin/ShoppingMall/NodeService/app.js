@@ -6,6 +6,7 @@ const express = require('express'),
   request = require('./dbtpl/request'),
   formReq = require('./dbtpl/formReq'),
   fileReq = require('./dbtpl/fileReq'),
+  bigFileReq = require('./dbtpl/bigFileReq'),
   weixinReq = require('./dbtpl/weixin/index.js'),
   vueCliReq = require('./dbtpl/vueCliReq'),
   socket = require('./dbtpl/socket');
@@ -26,8 +27,12 @@ const server = app.listen(port, function () {
 app.all('*', function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   // res.header("Access-Control-Allow-Headers", "X-Requested-With,token");
-  // 解决跨域
-  res.header("Access-Control-Allow-Headers", "content-type,x-requested-with,Authorization,x-ui-request,lang,accept,access-control-allow-origin");
+  /**
+   * 解决跨域
+   * 包含自定义header字段的跨域请求，浏览器会先向服务器发送OPTIONS请求，探测该服务器是否允许自定义的跨域字段。如果允许，则继续实际的POST／GET正常请求，否则，返回标题所示错误。
+   * 若报跨域:...by CORS policy: Request header field range is not allowed by Access-Control-Allow-Headers in preflight response，只需在响应头中包含该字段即可(加入range)
+  */
+  res.header("Access-Control-Allow-Headers", "content-type,x-requested-with,Authorization,x-ui-request,lang,accept,access-control-allow-origin,range");
   res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
   res.header("X-Powered-By", ' 3.2.1');
   res.header("Content-Type", "application/json;charset=utf-8");
@@ -42,6 +47,9 @@ formReq(app);
 
 /* 文件上传、下载 */
 fileReq(app);
+
+/* 大文件文件上传、下载 */
+bigFileReq(app);
 
 /* 微信小程序接口 */
 weixinReq(app);

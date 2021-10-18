@@ -100,6 +100,7 @@
             } else {
               // 两种解码方式，区别自行百度: decodeURIComponent/decodeURI（主要获取后缀名，否则某些浏览器会一律识别为txt，导致下载下来的都是txt）
               const _fileName = decodeURIComponent((this.getResponseHeader('content-disposition') || '; filename="未知文件"').split(';')[1].trim().slice(9));
+              // 也可以用FileSaver: saveAs(fileReader.result, _fileName);
               downloadEvt(fileReader.result, _fileName);
             }
           }
