@@ -26,6 +26,7 @@
     "socket.io": "^2.1.1"
   },
   "dependencies": {
+    "compression": "^1.7.4",
     "formidable": "^1.2.2",
     "log4js": "^6.3.0",
     "mysql": "^2.18.1",

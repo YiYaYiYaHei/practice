@@ -9,7 +9,15 @@ const express = require('express'),
   bigFileReq = require('./dbtpl/bigFileReq'),
   weixinReq = require('./dbtpl/weixin/index.js'),
   vueCliReq = require('./dbtpl/vueCliReq'),
-  socket = require('./dbtpl/socket');
+  socket = require('./dbtpl/socket'),
+  https = require('https'),
+  fs = require('fs');
+
+// 服务端开启gzip支持
+var compression = require('compression');
+//尽量在其他中间件前使用compression
+app.use(compression());
+
 
 /* 设置启动静态资源路径和请求编码及转义 */
 app.use(express.static(path.join(__dirname, '/static')));
@@ -19,9 +27,22 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 /* 服务启动监听 */
-const server = app.listen(port, function () {
-  console.log('customize system service starting on port ' + port);
+var privateCrt = fs.readFileSync(path.join(process.cwd(), 'cert/server.pem'), 'utf8');
+var privateKey = fs.readFileSync(path.join(process.cwd(), 'cert/server.key'), 'utf8');
+const HTTPS_OPTOIN = {
+  key: privateKey,
+  cert: privateCrt
+};
+const SSL_PORT = 13666;
+const httpsServer = https.createServer(HTTPS_OPTOIN, app);
+httpsServer.listen(SSL_PORT, () => {
+  console.log(`HTTPS Server is running on: https://localhost:${SSL_PORT}`);
 });
+// ==================== http配置 start=======================
+/* const server = app.listen(port, function () {
+  console.log('customize system service starting on port ' + port);
+}); */
+// ==================== http配置 end =======================
 
 /* 设置CORS跨域 */
 app.all('*', function (req, res, next) {
@@ -58,7 +79,7 @@ weixinReq(app);
 vueCliReq(app);
 
 /* socket 接入 */
-socket(app, server);
+socket(app, httpsServer);
 
 /* 导出模块 */
 module.exports = app;
