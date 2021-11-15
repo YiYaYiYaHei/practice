@@ -9,7 +9,7 @@
 <body>
   <button onclick="ajaxEvt('head', requestUrl, null, downLoadAjaxEvt)">大文件下载(分片下载)</button>
   <script>
-    const requestUrl = 'http://192.168.66.183:13666/slice/download?name=DOC.zip';
+    const requestUrl = 'http://192.168.66.183:13666/slice/download?name=test.jpg';
     function downloadEvt(url, fileName = '未知文件') {
       const el = document.createElement('a');
       el.style.display = 'none';
@@ -122,6 +122,11 @@
      * @param {Object} [config] - 方法配置
      */
     function downLoadAjaxEvt(ajaxResponse) {
+      // 判断接口是否报错
+      if (ajaxResponse.getResponseHeader('Content-Type').includes('application/json')) {
+        alert('服务器错误');
+        return;
+      }
       const fileSize = ajaxResponse.getResponseHeader('Content-Length') * 1;
       // 两种解码方式，区别自行百度: decodeURIComponent/decodeURI（主要获取后缀名，否则某些浏览器会一律识别为txt，导致下载下来的都是txt）
       const fileName = decodeURIComponent((ajaxResponse.getResponseHeader('content-disposition') || '; filename="未知文件"').split(';')[1].trim().slice(9));
