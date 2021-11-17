@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>长短连接</title>
+</head>
+<body>
+  <div>
+    <a href="https://www.jqhtml.com/34149.html" target="_blank" style="color: blue;">http的长连接和短连接（史上最通俗！）</a>
+    <a href="http://caibaojian.com/http-connection-and-websocket.html" target="_blank" style="color: blue;">长连接、短连接、长轮询和WebSocket</a>
+  </div>
+  <p>HTTP协议是基于请求/响应模式的，因此只要服务端给了响应，本次HTTP连接就结束了，或者更准确的说，是本次HTTP请求就结束了，根本没有长连接这一说，那么自然也就没有短连接这一说了；</p>
+  <p>网上所说的长连接、短连接，本质其实说的是TCP连接。TCP连接是一个双向通道，它是可以保持一段时间不关闭，因此TCP才有正真的长连接、短连接。</p>
+  <div>
+    <b>短连接</b>
+    <p>概念：客户端发送请求，服务器接收请求，双方建立连接，服务器响应资源，请求结束。</p>
+    特性：
+    <ol>
+      <li>HTTP1.0协议中使用的是短连接；</li>
+      <li>客户端和服务器每进行一次HTTP操作，就建立一次连接，任务结束就中断连接；当请求网页中的css、js等静态文件时，如果使用短连接，每次都需要重新建立TCP连接，很浪费资源；
+      </li>
+    </ol>
+    缺点：
+    <ol>
+      <li>浪费资源</li>
+    </ol>
+  </div>
+
+  <div>
+    <b>长连接</b>
+    <p>概念：客户端发出请求，服务端接收请求，双方建立连接，在服务端没有返回之前保持连接，当客户端再发送请求时，它会使用同一个连接。这一直继续到客户端或服务器端认为会话已经结束，其中一方中断连接。</p>
+    特性:
+    <ol>
+      <li>从HTTP1.1协议以后，连接默认都是长连接；现如今的HTTP协议，大部分都是1.1的，因此我们平时用的基本上都是长连接；</li>
+      <li>长连接实际指TCP长连接；</li>
+      <li>长连接是为了复用TCP连接，多个HTTP请求可以复用同一个TCP连接，这就节省了很多TCP连接建立和断开的消耗（节约时间、节省流量）；</li>
+      <li>客户端和服务器都需要设置Connection: keep-alive；</li>
+    </ol>
+    优点:
+    <ol>
+      <li>减少了连接请求</li>
+      <li>降低TCP阻塞</li>
+      <li>减少了延迟</li>
+      <li>实时性较好</li>
+    </ol>
+    缺点：
+    <ol>
+      <li>影响性能，因为它在文件被请求之后还保持了不必要的连接很长时间</li>
+    </ol>
+  </div>
+
+  <script>
+    window.onload = () => {
+      function requestApi(url, methed) {
+        let ajax = new XMLHttpRequest();
+        ajax.open(methed.toUpperCase(), url);
+        ajax.setRequestHeader('Authorization', 'token');
+        ajax.onreadystatechange = function () {
+          if (this.readyState === 4 && this.status === 200) {
+            console.log('接口数据', this.response);
+          }
+        }
+        ajax.send();
+      }
+      requestApi('http://localhost:13666/list', 'get');
+      requestApi('http://localhost:13666/delete/1', 'delete');
+      requestApi('http://localhost:13666/chart/pie', 'post');
+    }
+  </script>
+</body>
+</html>
