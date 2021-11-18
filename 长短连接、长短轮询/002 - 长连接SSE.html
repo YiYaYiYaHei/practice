@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>长连接SSE</title>
+</head>
+<body>
+  <div>
+    <a href="https://www.jianshu.com/p/b1f00785799c" target="_blank" style="color: blue;">SSE(Server Sent Events) HTTP服务端推送详解</a>
+    <a href="https://www.jianshu.com/p/73a881f22e53" target="_blank" style="color: blue;">Html5服务器发送事件(sse)在nodejs中的应用</a>
+  </div>
+  <p>SSE是单双工通信（html5新增特性），即只能由服务器给客户端发送数据，客户端不能给服务端发送消息。所谓的SSE(Sever-Sent Event),就是浏览器向服务器发送了一个HTTP请求，保持长连接，服务器不断单向地向浏览器推送“信息”，这么做是为了节省网络资源，不用一直发请求，建立新连接。</p>
+  优点：
+  <ul>
+    <li>SSE和WebSocket相比，最大的优势是便利，服务端不需要第三方组件，开发难度低；</li>
+    <li>SSE和轮询相比它不用处理很多请求，不用每次建立新连接，延迟低。</li>
+  </ul>
+  缺点：
+  <ul>
+    <li>如果客户端有很多需要保持很多长连接，这回占用大量内存和连接数；</li>
+    <li>受同源策略的影响，不能跨域；</li>
+    <li>有兼容问题，IE上不支持。</li>
+  </ul>
+  <hr></hr>
+
+  <p style="color: red">注意：</p>
+  <ol>
+    <li>SSE受<b style="color: red">同源策略</b>的影响，不能跨域，此代码在vue中是可以实现的。/apis是代理地址 、 /sse是接口地址</li>
+    <li>支持默认3种事件，连接一旦建立就会触发open事件，客户端收到服务器发来的数据，就会触发message事件，如果发生通讯错误（如断开连接）就会触发error事件。</li>
+  </ol>
+
+  <hr></hr>
+
+  <b>SSE、WebSocket</b>
+  <p>SSE与WebSocket有相似功能，都是用来建立浏览器与服务器之间的通信渠道。两者的区别在于：</p>
+  <ol>
+    <li>WebSocket是全双工通道，可以双向通信，功能更强；SSE是单向通道，只能服务器向浏览器端发送。</li>
+    <li>WebSocket是一个新的协议，需要服务器端支持；SSE则是部署在 HTTP协议之上的，现有的服务器软件都支持。</li>
+    <li>SSE是一个轻量级协议，相对简单；WebSocket是一种较重的协议，相对复杂。</li>
+    <li>SSE默认支持断线重连，WebSocket则需要额外部署。</li>
+    <li>SSE支持自定义发送的数据类型。</li>
+    <li>SSE不支持CORS，参数url就是服务器网址，必须与当前网页的网址在同一个网域（domain），而且协议和端口都必须相同；WebSocket支持跨域</li>
+  </ol>
+
+
+
+  <script>
+    window.onload = () => {
+      /**
+       * SSE受同源策略的影响，不能跨域，此代码在vue中是可以实现的。/apis是代理地址 、 /sse是接口地址
+       * 支持默认3种事件，连接一旦建立就会触发open事件，客户端收到服务器发来的数据，就会触发message事件，如果发生通讯错误（如断开连接）就会触发error事件。
+      */
+      // 判断是否支持EventSource
+      if (typeof EventSource !== 'undefined') {
+        // 为http://localhost:8080/apis/sse
+        var source = new EventSource('/apis/sse');
+
+        // 接受服务器发来的数据
+        source.addEventListener('message', function (e) {
+          console.log(e);
+        });
+
+        source.addEventListener('open', function (e) {
+          console.log('连接sse');
+        });
+
+        source.addEventListener('error', function (e) {
+          console.log('连接报错了');
+        });
+      }
+    }
+  </script>
+</body>
+</html>

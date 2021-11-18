@@ -27,6 +27,7 @@
       <li>浪费资源</li>
     </ol>
   </div>
+  <hr></hr>
 
   <div>
     <b>长连接</b>
@@ -50,24 +51,5 @@
       <li>影响性能，因为它在文件被请求之后还保持了不必要的连接很长时间</li>
     </ol>
   </div>
-
-  <script>
-    window.onload = () => {
-      function requestApi(url, methed) {
-        let ajax = new XMLHttpRequest();
-        ajax.open(methed.toUpperCase(), url);
-        ajax.setRequestHeader('Authorization', 'token');
-        ajax.onreadystatechange = function () {
-          if (this.readyState === 4 && this.status === 200) {
-            console.log('接口数据', this.response);
-          }
-        }
-        ajax.send();
-      }
-      requestApi('http://localhost:13666/list', 'get');
-      requestApi('http://localhost:13666/delete/1', 'delete');
-      requestApi('http://localhost:13666/chart/pie', 'post');
-    }
-  </script>
 </body>
 </html>

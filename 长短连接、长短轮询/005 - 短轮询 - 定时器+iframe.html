@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>短轮询 - 定时器+iframe</title>
+</head>
+<body>
+  <div>
+    <a href="https://blog.csdn.net/u010433704/article/details/52003982" target="_blank" style="color: blue;">Web 通信 之 长连接、长轮询</a>
+  </div>
+
+  <iframe id="iframe" name="polling" style="display: none"></iframe>
+
+  <script>
+    window.onload = () => {
+      // 会跨域，放到服务器下就可以解决（未测试）
+      function getIframe() {
+        const iframe = document.getElementById('iframe');
+        if (iframe) {
+          iframe.setAttribute('src', `http://localhost:13666/polling?_date=${+new Date()}`);
+          setTimeout(() => {
+            console.log(window.frames.polling);
+            window.frames.polling.location.reload();
+          }, 1000);
+        }
+      }
+
+      /**
+       * 这里的客户端程序是利用隐藏的iframe向服务器端不停的拉取数据，将iframe获取后的数据填充到页面中即可。
+       * 同ajax实现的基本原理一样，唯一不同的是当一个请求没有响应返回数据的情况下，下一个请求也将开始，这时候前面的请求将被停止。
+       * 如果要使程序和上面的ajax请求一样也可以办到，那就是给每个请求分配一个独立的iframe即可。
+      */
+      setInterval(() => {
+        getIframe();
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

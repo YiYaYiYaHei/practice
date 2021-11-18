@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>短轮询 - 定时器+ajax</title>
+</head>
+<body>
+  <script>
+    window.onload = () => {
+      function requestApi(url, methed) {
+        let ajax = new XMLHttpRequest();
+        ajax.open(methed.toUpperCase(), url);
+        ajax.setRequestHeader('Authorization', 'token');
+        ajax.onreadystatechange = function () {
+          if (this.readyState === 4 && this.status === 200) {
+            console.log('接口数据', this.response);
+          }
+        }
+        ajax.send();
+      }
+
+      // 响应的结果没有顺序（因为是异步请求，当发送的请求没有返回结果的时候，后面的请求又被发送。而此时如果后面的请求比前面的请 求要先返回结果，那么当前面的请求返回结果数据时已经是过时无效的数据了）。
+      setInterval(() => {
+        requestApi(`http://localhost:13666/polling?_date=${+new Date()}`, 'get');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
