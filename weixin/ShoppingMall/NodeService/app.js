@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 /* 服务启动监听 */
-var privateCrt = fs.readFileSync(path.join(process.cwd(), 'cert/server.pem'), 'utf8');
+/* var privateCrt = fs.readFileSync(path.join(process.cwd(), 'cert/server.pem'), 'utf8');
 var privateKey = fs.readFileSync(path.join(process.cwd(), 'cert/server.key'), 'utf8');
 const HTTPS_OPTOIN = {
   key: privateKey,
@@ -37,11 +37,11 @@ const SSL_PORT = 13666;
 const httpsServer = https.createServer(HTTPS_OPTOIN, app);
 httpsServer.listen(SSL_PORT, () => {
   console.log(`HTTPS Server is running on: https://localhost:${SSL_PORT}`);
-});
-// ==================== http配置 start=======================
-/* const server = app.listen(port, function () {
-  console.log('customize system service starting on port ' + port);
 }); */
+// ==================== http配置 start=======================
+const httpsServer = app.listen(port, function () {
+  console.log('customize system service starting on port ' + port);
+});
 // ==================== http配置 end =======================
 
 /* 设置CORS跨域 */
