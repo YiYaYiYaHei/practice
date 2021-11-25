@@ -9,7 +9,7 @@ import * as Prototypes from "./prototypes.js";
 export default {
   install(Vue) {
     this.registerFilter(Vue);
-    this.registerDirective(Vue);
+    // this.registerDirective(Vue);
     this.registerPrototype(Vue);
 		// this.registerComponents(Vue);
   },

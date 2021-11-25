@@ -11,9 +11,9 @@ import uniTools from './uniTools.js';
 const getModules = (name) => {
 	let modulesFiles, dir, reg;
 	switch(name) {
-		case 'directives':
+		/* case 'directives':
 			modulesFiles = require.context('@/common/directives/', true, /^.+(?<!index)\.js$/);
-			break;
+			break; */
 		case 'components':
 			modulesFiles = require.context('@/common/components/', true, /^.+(?<!index)\.(js|vue)$/);
 			break;
@@ -199,14 +199,15 @@ Date.prototype.format = (fmt, hasWeek = false) => {
 };
 
 /**
- * 日期格式化
- * @param {Date|number|string} val - Date实例或者是时间戳
+ * 日期格式化  YYYY-MM-DD hh:mm:ss ww qq (年-月-日 时:分:秒 星期 季度)
  * @param {string} [type='YYYY-MM-DD hh:mm:ss'] - 日期格式
+ * @param {Date|number|string} [val] - Date或者是时间戳
  * @param {number} [granularity=1] 分粒度 默认为1，若为10可能显示为 10:10 10:20等
  * @return {string} 格式化后的时间
  */
-const formatDate = (val, type = 'YYYY-MM-DD hh:mm:ss', granularity = 1) => {
-  const date = val instanceof Date ? val : new Date(/^[0-9]*$/g.test(val) ? val * 1 : Date.now());
+const formatDate = (type = 'YYYY-MM-DD hh:mm:ss', val, granularity = 1) => {
+  const _val = isNaN(val) ? val : val * 1;
+  const date = new Date(_val) === 'Invalid Date' ? Date.now() : new Date(_val);
   const YYYY = date.getFullYear() + '';
   const m = date.getMonth() + 1;
   const MM = m > 9 ? m + '' : '0' + m;
@@ -218,16 +219,13 @@ const formatDate = (val, type = 'YYYY-MM-DD hh:mm:ss', granularity = 1) => {
   const mm = $m > 9 ? $m + '' : '0' + $m;
   const s = date.getSeconds();
   const ss = s > 9 ? s + '' : '0' + s;
-  const obj = {
-    YYYY,
-    MM,
-    DD,
-    hh,
-    mm,
-    ss
-  };
+  const week = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+  const ww = week[date.getDay()];
+  const quarter = ['第一季度', '第二季度', '第三季度', '第四季度'];
+  const qq = quarter[Math.floor((date.getMonth() + 3) / 3) - 1];
+  const obj = {YYYY, MM, DD, hh, mm, ss, ww, qq};
 
-  return type.replace(/(YYYY)|(MM)|(DD)|(hh)|(mm)|(ss)/g, (key) => obj[key]);
+  return type.replace(/(YYYY)|(MM)|(DD)|(hh)|(mm)|(ss)|(ww)|(qq)/g, (key) => obj[key]);
 };
 
 /**

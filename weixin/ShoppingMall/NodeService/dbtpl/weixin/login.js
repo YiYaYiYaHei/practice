@@ -63,6 +63,7 @@ module.exports = app => {
           console.log('查询结果:', find_res);
           if (find_res.status === 200) {
             const createdTime = +new Date();
+            params.userInfo = JSON.parse(params.userInfo);
             const token = makeToken(`${params.userInfo.nickName}${data.openid}${createdTime}`);
             let gender = '';
             switch(params.userInfo.gender) {

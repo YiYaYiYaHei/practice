@@ -4,7 +4,7 @@
  * appSecrect: 'ef9154c3898612c63b9d9948bcb94d4b'
  */
 
-const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:13666' : 'https://192.168.66.183:13666';
+const BASE_URL = process.env.NODE_ENV === 'development' ? 'https://localhost:13666' : 'http://47.100.181.44:13666';
 
 export {
 	BASE_URL

@@ -86,7 +86,7 @@
 			},
 			// 执行登录操作,获取openid 和 sessionKey
 			async loginEvt() {
-				let result = await this.$apis.login.login({code: this.code, userInfo: this.userInfo});
+				let result = await this.$apis.login.login({code: this.code, userInfo: JSON.stringify(this.userInfo)});
 				if (result.status === 200) {
 					uni.setStorageSync('current_login_user_token', result.data.token);
 					uni.setStorageSync('login_info', JSON.stringify({code: this.code, ...result.data}));
