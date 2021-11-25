@@ -38,7 +38,7 @@ const getUrl = (url, urlPrefix = 'BASE_URL') => {
 // 根据header里的contenteType转换请求参数
 const transformRequestData = (requestConfig) => {
 	let [contentType, requestData] = [requestConfig.contentType, requestConfig.params];
-	if (contentType.indexOf('application/x-www-form-urlencoded') > -1) {
+	if (contentType.includes('application/x-www-form-urlencoded')) {
 		// formData格式：key1=value1&key2=value2；uni-app不支持new FormData();
 		let str = "";
 		for (let key in requestData) {
@@ -56,7 +56,7 @@ const transformRequestData = (requestConfig) => {
 // 构建请求头
 const buildReqHeader = (requestConfig) => {
 	const token = 'FHJSHFJASKHFLA';
-	requestConfig.contentType = requestConfig.contentType || "application/json;charset=utf-8";
+	requestConfig.contentType = requestConfig.contentType || (['POST', 'PUT'].includes(requestConfig.method) ? 'application/x-www-form-urlencoded' : 'application/json;charset=utf-8');
 	return {
 		"Content-Type": requestConfig.contentType,
 		"Authorization": token
@@ -83,7 +83,9 @@ const buildRequestConfig = (requestConfig) => {
 		delete config.formData.filePath;
 		config.name = 'file';
 	} else {
-		config[/GET|DELETE|DOWNLOAD/.test(config.method) ? 'params' : 'data'] = transformRequestData(requestConfig);
+		// 对象形式的参数目前使用JSON.stringify()传递
+		// config[/GET|DELETE|DOWNLOAD/.test(config.method) ? 'params' : 'data'] = transformRequestData(requestConfig);
+		config[/GET|DELETE|DOWNLOAD/.test(config.method) ? 'params' : 'data'] = requestConfig.params;
 	}
 
 	// 请求超时时间
