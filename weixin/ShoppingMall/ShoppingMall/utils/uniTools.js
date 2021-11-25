@@ -176,7 +176,7 @@ const navigateBack = (obj = {}) => {
 		 animationType,
 		 animationDuration
 	});
-}
+};
 
 /** 
  * @description 从本地相册选择图片或使用相机拍照
@@ -225,7 +225,7 @@ const saveFile = (tempFilePath, successCb, errorCb) => {
 			(typeof errorCb === 'function') && errorCb();
 		}
 	});
-}
+};
 
 /** 
  * @description 获取节点基本信息(uni-app不能对节点进行增删改查操作，目前只能获取到位置信息，子组件的节点需要通过refs来调用getDom方法)
@@ -247,7 +247,7 @@ const getDom = (_this, className, isAll = true) => {
 			}
 		}).exec();
 	});
-}
+};
 
 /** 
  * @description 带过期时间的存储（无法自动删除，需手动调用判断）
@@ -280,7 +280,7 @@ const setStorage = (key, value, seconds) => {
 		var expire = timestamp + seconds;
 		uni.setStorageSync(key, `${value}|${expire}`);
 	}
-}
+};
 
 /** 
  * @description 预览图片
@@ -351,7 +351,7 @@ const previewImage = (obj = {}, successCb, errorCb, isCustomizeLong = false) => 
 		});
 		// #endif
 	}
-}
+};
 
 /** 
  * @description 模拟a标签的锚点链接
@@ -381,7 +381,29 @@ const jumpId = (className, pDom) => {
 	　　});
 		}
 	}).exec();
-}
+};
+
+/**
+ * @description 微信支付
+ * @param {Object} payObj 微信支付所需对象 {timeStamp, nonceStr, packageValue, signType, paySign} - 后端返回
+ * @param {Function} successCb  成功后的回调函数
+ * @param {Function} errorCb    失败后的回调函数
+ */
+const pay = (payObj, successCb, errorCb) => {
+	uni.requestPayment({
+		provider: 'wxpay',
+		timeStamp: payObj.timeStamp,
+		nonceStr: payObj.nonceStr,
+		package: payObj.packageValue,
+		signType: payObj.signType,
+		paySign: payObj.paySign,
+		success: successCb,
+		fail: (err) => {
+			showToast({title: '支付失败,请重试'}, null, errorCb);
+			console.log('fail:' + JSON.stringify(err));
+		}
+	});
+};
 
 export default {
 	showToast,
@@ -395,5 +417,6 @@ export default {
 	getDom,
 	setStorage,
 	previewImage,
-	jumpId
+	jumpId,
+	pay
 }
