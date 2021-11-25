@@ -39,11 +39,6 @@
 			"text": "我的"
 		}]
 	},
-	// 小程序分包
-	"subPackages": [{
-		"root": "pagesOther",
-		"pages": []
-	}],
 	// pages 数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 	"pages": [{
 		"path": "pages/login/start",
@@ -103,36 +98,41 @@
 			"navigationBarTitleText": "我的",
 			"navigationStyle": "custom"
 		}
-	}, {
-		"path": "pages/otherPages/arcText",
-		"style": {
-			"navigationBarTitleText": "弧形文字"
-		}
-	}, {
-		"path": "pages/otherPages/choujiang",
-		"style": {
-			"navigationBarTitleText": "幸运大转盘"
-		}
-	}, {
-		"path": "pages/otherPages/file",
-		"style": {
-			"navigationBarTitleText": "文件上传下载"
-		}
-	}, {
-		"path": "pages/otherPages/filePicker",
-		"style": {
-			"navigationBarTitleText": "filePicker"
-		}
-	}, {
-		"path": "pages/otherPages/uniFormTest",
-		"style": {
-			"navigationBarTitleText": "uniForm使用"
-		}
-	}, {
-		"path": "pages/otherPages/guide",
-		"style": {
-			"navigationBarTitleText": "新手引导页"
-		}
+	}],
+	// 小程序分包
+	"subPackages": [{
+		"root": "subPackages/otherPages",
+		"pages": [{
+			"path": "pages/arcText",
+			"style": {
+				"navigationBarTitleText": "弧形文字"
+			}
+		}, {
+			"path": "pages/choujiang",
+			"style": {
+				"navigationBarTitleText": "幸运大转盘"
+			}
+		}, {
+			"path": "pages/file",
+			"style": {
+				"navigationBarTitleText": "文件上传下载"
+			}
+		}, {
+			"path": "pages/filePicker",
+			"style": {
+				"navigationBarTitleText": "filePicker"
+			}
+		}, {
+			"path": "pages/uniFormTest",
+			"style": {
+				"navigationBarTitleText": "uniForm使用"
+			}
+		}, {
+			"path": "pages/guide",
+			"style": {
+				"navigationBarTitleText": "新手引导页"
+			}
+		}]
 	}],
 	// 自定义组件--easycom配置
 	"easycom": {

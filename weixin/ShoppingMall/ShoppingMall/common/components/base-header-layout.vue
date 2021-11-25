@@ -68,12 +68,12 @@
 				// 胶囊尺寸
 				capsuleSize: {},
 				barsList: [
-					{label: '弧形文字', url: '/pages/otherPages/arcText'},
-					{label: '幸运大转盘', url: '/pages/otherPages/choujiang'},
-					{label: '文件上传、下载', url: '/pages/otherPages/file'},
-					{label: 'filePicker', url: '/pages/otherPages/filePicker'},
-					{label: 'uniForm', url: '/pages/otherPages/uniFormTest'},
-					{label: '新手引导页', url: '/pages/otherPages/guide'}
+					{label: '弧形文字', url: '/subPackages/otherPages/pages/arcText'},
+					{label: '幸运大转盘', url: '/subPackages/otherPages/pages/choujiang'},
+					{label: '文件上传、下载', url: '/subPackages/otherPages/pages/file'},
+					{label: 'filePicker', url: '/subPackages/otherPages/pages/filePicker'},
+					{label: 'uniForm', url: '/subPackages/otherPages/pages/uniFormTest'},
+					{label: '新手引导页', url: '/subPackages/otherPages/pages/guide'}
 				]
 			}
 		},

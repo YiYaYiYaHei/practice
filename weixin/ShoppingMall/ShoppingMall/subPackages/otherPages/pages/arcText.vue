@@ -28,7 +28,7 @@
 </template>
 
 <script>
-	import Arctext from '../../plugins/arctext.js';
+	import Arctext from '../plugins/arctext.js';
 	export default {
 		data() {
 			return { 

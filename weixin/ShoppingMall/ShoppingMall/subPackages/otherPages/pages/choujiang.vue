@@ -15,7 +15,7 @@
 						<view class="canvas-item" v-for="(iteml, index2) in awardsList" :key="index2">
 							<view class="canvas-item-text" :style="[{ transform: 'rotate(' + iteml.turn + ')' }]">
 								<text>{{ iteml.award }}</text>
-								<image class="canvas-item-text-img" src="/static/images/gift.png"></image>
+								<image class="canvas-item-text-img" src="../static/images/gift.png"></image>
 							</view>
 						</view>
 					</view>

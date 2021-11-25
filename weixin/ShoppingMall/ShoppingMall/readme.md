@@ -15,15 +15,15 @@
 
 # 项目结构
 ```
-├─apis  // 封装请求
-│  │  url.config.js          // BASE_URL配置
-│  └─ index.js               // 接口请求地址，(按模块在/apis下创建js文件)
+├─apis                         // 封装请求
+│  │  url.config.js            // BASE_URL配置
+│  └─ index.js                 // 接口请求地址，(按模块在/apis下创建js文件)
 │
-├─styles                    // scss资源
-│  │  common.scss           // 全局class名
-│  └─ uni.scss              // uni.scss
+├─styles                      // scss资源
+│  │  common.scss             // 全局class名
+│  └─ uni.scss                // uni.scss
 │
-├─common // 公共文件
+├─common                      // 公共文件
 │  │  components              // 全局组件
 │  │  directives              // 全局指令
 │  │  componenets.js          // 引入/common/components夹下的.vue结尾的组件
@@ -32,42 +32,42 @@
 │  │  prototypes.js           // 全局原型
 │  └─ index.js                // 注册全局组件、指令、原型、过滤器
 │
-├─mininxs // 混入
+├─mininxs                     // 混入
 │  └─ index.js                // 引入/mininxs夹下的.js结尾的文件（按模块划分mininx）
 │
-├─pages   // 主包页面（按模块划分）
+├─pages                       // 主包（按模块划分）
 │
-├─pagesOther // 分包页面，按需可再分包
+├─subPackages                // 分包，按需可再分包
 │
-├─plugins    // 插件
-│  └─luch-request          // ajax
+├─plugins                    // 插件
+│  └─luch-request            // ajax
 │ 
-├─static     // 静态文件，不会被打包压缩，大图建议上传至服务器使用
+├─static                    // 静态文件，不会被打包压缩，大图建议上传至服务器使用
 │  │  logo.png
 │  │  uni.ttf
 │  │
 │  └─images
 │
-├─store       // vuex状态处理器
+├─store                    // vuex状态处理器
 │  └─index.js
 │
-│─uni_modules // uni-ui组件
+│─uni_modules              // uni-ui组件
 │
-│─unpackage   // 打包后的文件，可随时删除重新编译
+│─unpackage                // 打包后的文件，可随时删除重新编译
 │
-├─utils      // 工具方法
-│  │  request.js      // ajax封装
-│  │  tools.js        // 工具方法（已挂载至原型上，this.$tools）
-│  │	uniTools.js     // uni-app  API部分方法封装（已挂载至原型上，this.$uniTools）
-│  └─ validates.js    // 表单校验方法（已挂载至原型上，this.$validates）
+├─utils                    // 工具方法
+│  │  request.js           // ajax封装
+│  │  tools.js             // 工具方法（已挂载至原型上，this.$tools）
+│  │	uniTools.js         // uni-app  API部分方法封装（已挂载至原型上，this.$uniTools）
+│  └─ validates.js        // 表单校验方法（已挂载至原型上，this.$validates）
 │
-├─App.vue     // 程序入口界面，只能写js
+├─App.vue                // 程序入口界面，只能写js
 │
-├─main.js     // 程序入口文件，全局挂在在此修改
+├─main.js                // 程序入口文件，全局挂在在此修改
 │
-├─pages.json   // 页面路由文档，router插件，需要自己引入改动
+├─pages.json            // 页面路由文档，router插件，需要自己引入改动
 │
-├─uni.scss     // 全局公用变量或方法
+├─uni.scss              // 全局公用变量或方法
 
 ```
 # 踩坑记录
