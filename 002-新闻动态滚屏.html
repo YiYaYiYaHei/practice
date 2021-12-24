@@ -41,6 +41,8 @@
   </style>
 </head>
 <body>
+  <p style="color: red; font-size: 18px; font-weight: bold; padding: 100px; text-align: center;">样式请参照本示例</p>
+
   <div id="container" onmouseover="mouseOverEvt()" onmouseout="mouseOutEvt()">
     <div class="wrap">
       <div id="box">
@@ -58,6 +60,9 @@
     /**
      * 计算偏移（类似新闻动态滚屏效果，也叫走马灯）
      * 为了让首尾无缝衔接，所以写了这个。轮播图也用了这个思想
+     *
+     * 样式特别注意：
+     * 1、需要有三个div容器：#container确定容器位置和大小；.wrap添加padding；#box展示内容必须relation定位
      *
      * 实现思路：
      * 1、准备舞台（#container）：设置舞台尺寸和整体位置
@@ -101,6 +106,7 @@
        * 2、偏移量需要和#box的实际高度比较 this.deviation >= (this.oBox.getBoundingClientRect().height / 2)
       */
       setIntervalEvt() {
+        // 拷贝一份内容，用作首尾无缝过渡
         this.oBox.innerHTML += this.oBox.innerHTML;
         this.timer = setInterval(() => {
           this.getTop();
@@ -109,6 +115,7 @@
       }
       getTop() {
         this.deviation += this.step;
+        // this.deviation >= (this.oBox.getBoundingClientRect().height / 2) 是关键，可以实现无缝衔接
         this.deviation = this.deviation >= (this.oBox.getBoundingClientRect().height / 2) ? 0 : this.deviation;
       }
       // 清除定时器
