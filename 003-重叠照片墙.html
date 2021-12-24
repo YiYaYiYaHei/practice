@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>重叠照片墙</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px;
+      height: 500px;
+      border: 1px solid #ccc;
+    }
+    .ellipsis {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .random {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: #fff;
+      border-radius: 50%;
+      animation: bound 2s infinite;
+    }
+    @keyframes bound {
+      0% {transform: translateY(-10%);}
+      50% {transform: translateY(0%);}
+      100% {transform: translateY(-10%);}
+    }
+  </style>
+</head>
+<body>
+  <div class="container"></div>
+
+  <script>
+    /**
+     * 计算随机位置（类似照片墙） - 不重叠 (支持正方形、圆、矩形)
+     * 不重叠的随机位置，此算法可能会循环上千次导致页面长时间渲染不出来
+     *
+     * 实现思路：
+     * 1、获取容器位置、尺寸，设置边界位置
+     * 2、设置随机数区间   Math.floor(Math.random()*(max-min+1)+min);  生成 left、top、width、height、color 随机数
+     * 3、判断随机数是否超出容器区域，如果超出需要重新生成，否则push进pointList数组中
+     *
+     * @param {String} container 标签选择器
+     * @param {Array} data 数据，这里主要使用data的长度
+     * @param {Object} config 配置
+     * @param {Array} [config.circleR] 宽区间 [minWidth, maxWidth]
+     * @param {Boolean} [config.isSquare] 是否是正方形，如果为false则表示图形的高度是3/2的宽度
+    */
+    class RandomList {
+      constructor(containerName, data, config) {
+        this.container = document.querySelector(containerName);
+        // 获取容器尺寸，用于计算left、top的随机值区间
+        this.boxSize = this.container.getBoundingClientRect();
+        // 计算left、top的随机值区间
+        this.boundaryW = [this.boxSize.left, this.boxSize.left + this.boxSize.width];
+        this.boundaryH = [this.boxSize.top, this.boxSize.top + this.boxSize.height];
+        // 数据
+        this.data = data;
+        // 随机生成球的宽高区间
+        [this.circleR, this.isSquare] = [config.circleR || [40, 100], config.isSquare];
+        // 随机数组
+        this.pointList = [];
+        this.calcusPos();
+      }
+      // 计算位置
+      calcusPos() {
+        const length = this.data.length;
+        for(let i = 0; i < length; i++) {
+          const point = {};
+          // 这里使用的绝对定位，是相对容器定位，所以不用加最小值  Math.floor(Math.random()*(max-min+1)+min);
+          point.x = Math.floor(Math.random() * (this.boundaryW[1] - this.boundaryW[0] + 1));
+          point.y = Math.floor(Math.random() * (this.boundaryH[1] - this.boundaryH[0] + 1));
+          // 计算随机宽
+          point.w = Math.floor(Math.random() * (this.circleR[1] - this.circleR[0] + 1) + this.circleR[0]);
+          // 计算高：如果是正方形/圆 则 宽高一致，如果是矩形 则 高度 为 二分之三 的宽度
+          point.h = this.isSquare ? point.w : (point.w + (point.w * 0.5));
+          // 如果超出容器位置，则重新计算
+          if (this.isOverstepBoundary(point.x, point.w, this.boxSize.width) || this.isOverstepBoundary(point.y, point.h, this.boxSize.height)) {
+            i--;
+            continue;
+          }
+          // 未超出容器位置，则放入随机数组中
+          this.pointList.push(Object.assign(point, {color: this.randomColor(), fontSize: Math.floor(point.w / 5.5)}));
+        }
+      }
+      // 随机颜色rgb
+      randomColor() {
+        const r = Math.floor(Math.random() * 256);
+        const g = Math.floor(Math.random() * 256);
+        const b = Math.floor(Math.random() * 256);
+        if (r === 255 && g === 255 & b === 255) this.randomColor();
+        return `rgb(${r}, ${g}, ${b})`;
+      }
+      // 判断是否超出边界
+      isOverstepBoundary(v1, v2, max) {
+        return (v2 + v1) >= max;
+      }
+    }
+
+    window.onload = () => {
+      const data = [];
+      for (let i = 0; i < 20; i++) {
+        data.push({name: `${i}随机随机`, value: 123});
+      }
+      const randomList = new RandomList('.container', data, {circleR: [60, 120], isSquare: true});
+      const pointList = randomList.pointList;
+      console.log(pointList);
+      for (let i = 0; i < pointList.length; i++) {
+        const style = `width: ${pointList[i].w}px; height: ${pointList[i].h}px; line-height: ${pointList[i].h}px; top: ${pointList[i].y}px; left: ${pointList[i].x}px; background: ${pointList[i].color}; font-size: ${pointList[i].fontSize}px`;
+        randomList.container.innerHTML += `<span class="random ellipsis" style="${style}">${data[i].name}</span>`;
+      }
+    }
+  </script>
+</body>
+</html>

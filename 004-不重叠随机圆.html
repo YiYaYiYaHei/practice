@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>不重叠随机圆</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px;
+      height: 500px;
+      border: 1px solid #ccc;
+    }
+    .ellipsis {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    /* 格子 */
+    .lattice {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px dotted #ccc;
+    }
+    /* 棋子 */
+    .piece {
+      display: inline-block;
+      color: #fff;
+      border-radius: 50%;
+      text-align: center;
+      animation: bound 2s infinite;
+    }
+    /* 这里的动画不能再用translate了，因为要使用translate对棋子实现较乱的布局 */
+    @keyframes bound {
+      0% {margin-top: -10%;}
+      50% {margin-top: 0;}
+      100% {margin-top: -10%;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container"></div>
+
+  <script>
+    /**
+     * 计算随机位置（类似照片墙） - 不会重叠 (支持正方形、圆、矩形)
+     *
+     * 名词解释：
+     * 1、容器（也可以理解为棋盘）：对应.container标签
+     * 2、格子：对应.lattice标签
+     * 3、棋子：对应.piece标签
+     * 4、格子的行数 - 就是每个格子的top值，也是y值
+     * 5、格子的列数 - 就是每个格子的left值，也是x值
+     *
+     * 实现思路：
+     * 采用棋盘思想，每个格子只放一个棋子
+     * 1、获取容器位置、尺寸 并 计算容器内最多可以绘制几行几列
+     * 2、根据数据长度计算每行可以放几个棋子
+     * 3、按行数循环获取列随机数并判断这一行中，该列是否存在  Math.floor(Math.random()*(max-min+1)+min);
+     * 4、循环行列数组，获取每个格子的top、left、width、height 及 棋子宽高
+     * 5、对格子采用的flex布局，使棋子永远在格子中间显示（可以对棋子添加translate使棋子实现较乱的布局）
+     *
+     * @param {String} container 标签选择器
+     * @param {Array} data 数据，这里主要使用data的长度
+     * @param {Object} config 配置
+     * @param {Array} [config.circleR] 宽区间 [minWidth, maxWidth]
+     * @param {Boolean} [config.isSquare] 是否是正方形，如果为false则表示图形的高度是3/2的宽度
+    */
+    class RandomList {
+      constructor(containerName, data, config) {
+        this.container = document.querySelector(containerName);
+        // 获取容器尺寸，用于容器内最多可以绘制几行几列
+        this.boxSize = this.container.getBoundingClientRect();
+        // 数据
+        this.data = data;
+        // 随机生成棋子的宽高区间
+        [this.circleR, this.isSquare] = [config.circleR || [40, 100], config.isSquare];
+        // 随机数组
+        this.pointList = [];
+        // 计算容器内可以绘制几行几列
+        this.getRowColumn();
+        // 获取格子的行列数
+        this.initRowColum();
+      }
+      // 计算容器内可以绘制几行几列
+      getRowColumn() {
+        // 计算行数：行数 = 容器高 / 棋子的最大值；（棋子的最大值：如果是正方形/圆 则 宽高一致，如果是矩形 则 高度 为 二分之三 的宽度）
+        const maxH = this.isSquare ? this.circleR[1] : (this.circleR[1] + (this.circleR[1]* 0.5));
+        this.row = Math.floor(this.boxSize.height / maxH);
+        // 计算每行的高度（格子的高），用于计算每个格子的y值
+        this.rowItem = Math.floor(this.boxSize.height / this.row);
+        // 计算列数：列数 = 容器宽 / 棋子的最大值
+        this.column = Math.floor(this.boxSize.width / this.circleR[1]);
+        // 计算每列的宽度（格子的宽），用于计算格子的x值
+        this.columnItem = Math.floor(this.boxSize.width / this.column);
+      }
+      // 获取格子的行列数
+      initRowColum() {
+        // 判断数据长度是否 > 容器内可放置的棋子数
+        if (this.data.length > (this.column * this.row)) {
+          alert(`朋友，最多绘制${this.column * this.row} 个，超过会重叠，重叠的算法见《003-重叠照片墙.html》`);
+          return;
+        }
+        // 根据数据长度判断 棋子可以分布在几行， 主要避免1颗棋子但是循环了this.row * num 次
+        const _row = this.data.length < this.row ? this.data.length : this.row;
+        // 获取每行可以防止的棋子数
+        const num = Math.ceil(this.data.length / _row);
+        // 存储每个格子的行数(y值)、列数(x值)
+        const rowColumnList = [];
+        // 按行数 循环 棋子数
+        for (let r = 0; r < _row; r++) {
+          for (let i = 0; i < num; i++) {
+            // 列随机数：以[1, 1]为起点
+            const x = Math.floor(Math.random() * (this.column - 1 + 1) + 1);
+            // 行数固定
+            const y = r + 1;
+            // 如果rowColumnList长度 >= 数据长度，则说明格子够了，此时不需要再循环获取了；防止“落单情况”，即前5行每行放置2枚棋子 第6行放置1枚棋子的情况
+            if (rowColumnList.length < this.data.length) {
+              // 防止棋子重叠
+              if (!rowColumnList.find(it => JSON.stringify(it) === JSON.stringify([x, y]))) {
+                rowColumnList.push([x, y]);
+              } else {
+                i--;
+              }
+            } else {
+              break;
+            }
+          }
+        }
+        this.calcusPos(rowColumnList);
+      }
+      // 根据行列数组计算 每个格子的top、left、width、height 及 棋子宽高
+      calcusPos(rowColumnList) {
+        const length = rowColumnList.length;
+        for (let i = 0; i < length; i++) {
+          const item = rowColumnList[i];
+          const point = {};
+          // 计算格子的left值
+          point.boxX = (item[0] - 1 < 0 ?  0 : item[0] - 1) * this.columnItem;
+          // 计算格子的top值
+          point.boxY = (item[1] - 1 < 0 ?  0 : item[1] - 1) * this.rowItem;
+          // 设置格子宽
+          point.boxW = this.columnItem;
+          // 设置格子高
+          point.boxH = this.rowItem;
+          // 计算棋子宽
+          point.w = Math.floor(Math.random() * (this.circleR[1] - this.circleR[0] + 1) + this.circleR[0]);
+          // 计算棋子高：如果是正方形/圆 则 宽高一致，如果是矩形 则 高度 为 二分之三 的宽度
+          point.h = this.isSquare ? point.w : (point.w + (point.w * 0.5));
+          // 计算translateX = (格子宽 - 棋子宽) / 2，可能向左平移也可能向右平移，所以有正负之分
+          const translateX = [-(this.columnItem - point.w) / 2, (this.columnItem - point.w) / 2];
+          point.translateX = Math.floor(Math.random() * (translateX[1] - translateX[0] + 1) + translateX[0]);
+          // 计算translateY = (格子高 - 棋子高) / 2，可能向上平移也可能向下平移，所以有正负之分
+          const translateY = [-(this.rowItem - point.h) / 2, (this.rowItem - point.h) / 2];
+          point.translateY = Math.floor(Math.random() * (translateY[1] - translateY[0] + 1) + translateY[0]);
+
+          this.pointList.push(Object.assign(point, {color: this.randomColor(), fontSize: Math.floor(point.w / 5.5)}));
+        }
+      }
+      // 随机颜色rgb
+      randomColor() {
+        const r = Math.floor(Math.random() * 256);
+        const g = Math.floor(Math.random() * 256);
+        const b = Math.floor(Math.random() * 256);
+        if (r === 255 && g === 255 & b === 255) this.randomColor();
+        return `rgb(${r}, ${g}, ${b})`;
+      }
+      // 获取格子的样式
+      getBoxStyle(item) {
+        return {
+          width: `${item.boxW}px`,
+          height: `${item.boxH}px`,
+          'line-height': `${item.boxH}px`,
+          top: `${item.boxY}px`,
+          left: `${item.boxX}px`
+        }
+      }
+
+      // 获取棋子的样式
+      getStyle(item) {
+        return {
+          width: `${item.w}px`,
+          height: `${item.h}px`,
+          'line-height': `${item.h}px`,
+          background: `${item.color}`,
+          'font-size': `${item.fontSize}px`,
+          transform: `translate(${item.translateX}px, ${item.translateY}px)`
+        }
+      }
+    }
+
+    window.onload = () => {
+      const data = [];
+      for (let i = 0; i < 24; i++) {
+        data.push({name: `${i}随机随机`, value: 123});
+      }
+      const randomList = new RandomList('.container', data, {circleR: [60, 120], isSquare: true});
+      const pointList = randomList.pointList;
+      console.log(pointList);
+      for (let i = 0; i < pointList.length; i++) {
+        const BoxStyle = `width: ${pointList[i].boxW}px; height: ${pointList[i].boxH}px; line-height: ${pointList[i].boxH}px; top: ${pointList[i].boxY}px; left: ${pointList[i].boxX}px;`;
+        const style = `width: ${pointList[i].w}px; height: ${pointList[i].h}px; line-height: ${pointList[i].h}px; background: ${pointList[i].color}; font-size: ${pointList[i].fontSize}px; transform: translate(${pointList[i].translateX}px, ${pointList[i].translateY}px)`;
+        randomList.container.innerHTML += `<div class="lattice" style="${BoxStyle}"><span class="piece ellipsis" style="${style}">${data[i].name}</span></div>`;
+      }
+    }
+  </script>
+</body>
+</html>
