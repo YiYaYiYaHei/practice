@@ -1,9 +1,0 @@
-INSERT INTO `classification` VALUES (1, '女装男装');
-INSERT INTO `classification` VALUES (2, '鞋类箱包');
-INSERT INTO `classification` VALUES (3, '母婴用品');
-INSERT INTO `classification` VALUES (4, '护肤彩妆');
-INSERT INTO `classification` VALUES (5, '汇吃美食');
-INSERT INTO `classification` VALUES (6, '珠宝配饰');
-INSERT INTO `classification` VALUES (7, '家装建材');
-INSERT INTO `classification` VALUES (8, '家居家纺');
-INSERT INTO `classification` VALUES (9, '百货市场');
